@@ -9,17 +9,16 @@ import com.mvrt.lib.ConstantsBase;
  */
 public class Constants extends ConstantsBase {
 
-    /**
-     * Allows the programmer to customize the location of the constants save file.
-     *
-     * @return the string path of the constants file
-     */
-    @Override
-    public String getFileLocation() {
-        return "~/constants.txt";
-    }
+  /**
+   * Allows the programmer to customize the location of the constants save file.
+   *
+   * @return the string path of the constants file
+   */
+  @Override public String getFileLocation() {
+    return "~/constants.txt";
+  }
 
-    static {
-        new Constants().loadFromFile();
-    }
+  static {
+    new Constants().loadFromFile();
+  }
 }

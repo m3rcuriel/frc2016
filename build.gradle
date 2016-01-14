@@ -12,6 +12,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'checkstyle'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'GradleRIO'                                 //Apply the GradleRIO plugin
@@ -23,6 +24,10 @@ gradlerio.team = "115"                                   //Your FRC team number 
 def robotManifest = {
   attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
   attributes 'Robot-Class': gradlerio.robotClass
+}
+
+repositories {
+  mavenCentral()
 }
 
 dependencies {
@@ -48,3 +53,9 @@ task wrapper(type: Wrapper) {
 artifacts {
   archives genJavadoc
 }
+
+checkstyle {
+  toolVersion = '6.10'
+}
+
+defaultTasks 'compileJava', 'check'
