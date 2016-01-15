@@ -481,7 +481,7 @@ public class DoubleMatrix {
       double b[][] = new double[n - 1][n - 1];
       for (int x = 0; x < n; x++) {
         p = 0; q = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i < n; i++) {
           for (int j = 0; j < n; j++) {
             if (j != x) {
               b[p][q++] = m[i][j];
@@ -492,7 +492,7 @@ public class DoubleMatrix {
             }
           }
         }
-        det = det + m[0][x] * determinant(m, n - 1) * sign;
+        det = det + m[0][x] * determinant(b, n - 1) * sign;
         sign = -sign;
       }
     }
