@@ -42,7 +42,7 @@ public abstract class ConstantsBase {
       String oname = ((Constant) o).name;
       Class<?> otype = ((Constant) o).type;
       Object ovalue = ((Constant) o).value;
-      return this.name.equals(oname) && this.type.equals(otype) && this.type.equals(ovalue);
+      return this.name.equals(oname) && this.type.equals(otype) && this.value.equals(ovalue);
     }
   }
 
