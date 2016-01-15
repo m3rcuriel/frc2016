@@ -53,7 +53,7 @@ public class DoubleMatrix {
    * Construct a new DoubleMatrix of the given size, initialized to 0.
    *
    * @param width the width of the matrix
-   * @oaram height the height of the matrix
+   * @param height the height of the matrix
    * @return the new DoubleMatrix
    */
   public static DoubleMatrix zeroes(int width, int height) {
@@ -225,6 +225,8 @@ public class DoubleMatrix {
    * <p>
    * Clones the array to avoid reference errors.
    * </p>
+   *
+   * @param data the double array to flash
    */
   public void flash(double[][] data) {
     this.data = Arrays.stream(data).flatMapToDouble(Arrays::stream).toArray().clone();
@@ -263,9 +265,9 @@ public class DoubleMatrix {
    *
    * This matrix is the pre-multiplied matrix, and the parameter is the post-multiplied.
    *
-   * A.multiply(B) => AB
+   * A.multiply(B) -- AB
    * NOT
-   * A.multiply(B) => BA
+   * A.multiply(B) -- BA
    *
    * @param matrix the matrix to multiply with
    * @return the product of the two matrices
@@ -306,7 +308,7 @@ public class DoubleMatrix {
    *
    * This matrix is the post-multiplied matrix, and the parameter is the pre-multiplied.
    *
-   * A.multiply(B) => BA
+   * A.multiply(B) -- BA
    *
    * @param matrix the matrix to multiply with
    * @return the product of the two matrices
@@ -398,6 +400,8 @@ public class DoubleMatrix {
   /**
    * Add the two matrices together.
    *
+   * @param a the first matrix
+   * @param b the second matrix
    * @return the sum of the two matrices
    */
   public static DoubleMatrix add(DoubleMatrix a, DoubleMatrix b) {
@@ -412,8 +416,10 @@ public class DoubleMatrix {
   }
 
   /**
-   * Substract the two matrices.
+   * Subtract the two matrices.
    *
+   * @param a the first matrix
+   * @param b the second matrix
    * @return the difference of the two matrices
    */
   public static DoubleMatrix subtract(DoubleMatrix a, DoubleMatrix b) {
@@ -430,6 +436,8 @@ public class DoubleMatrix {
   /**
    * Multiply the two matrices together.
    *
+   * @param a the first matrix
+   * @param b the second matrix
    * @return the product of the two matrices
    */
   public static DoubleMatrix multiply(DoubleMatrix a, DoubleMatrix b) {
@@ -460,6 +468,7 @@ public class DoubleMatrix {
   /**
    * Get the determinant of a DoubleMatrix.
    *
+   * @param m the matrix to get the determinant of
    * @return the determinant of the matrix
    */
   public static double determinant(DoubleMatrix m) {
@@ -478,9 +487,10 @@ public class DoubleMatrix {
     if (n == 1) {
       det = m[0][0];
     } else {
-      double b[][] = new double[n - 1][n - 1];
+      double[][] b = new double[n - 1][n - 1];
       for (int x = 0; x < n; x++) {
-        p = 0; q = 0;
+        p = 0;
+        q = 0;
         for (int i = 1; i < n; i++) {
           for (int j = 0; j < n; j++) {
             if (j != x) {
