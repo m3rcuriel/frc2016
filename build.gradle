@@ -19,7 +19,7 @@ apply plugin: 'GradleRIO'                                 //Apply the GradleRIO 
 
 gradlerio.robotClass = "com.mvrt.frc2016.Robot"   //The class for the main Robot Class. Used in manifest
 gradlerio.team = "115"                                   //Your FRC team number (e.g. 5333 for team 'Can't C#', or 47 for Chief Delphi)
-//gradlerio.rioIP = "11.53.33.20"                         //Uncomment to specify the IP address of the RIO
+gradlerio.rioIP = "10.1.15.22"                         //Uncomment to specify the IP address of the RIO
 
 def robotManifest = {
   attributes 'Main-Class': 'edu.wpi.first.wpilibj.RobotBase'
@@ -34,6 +34,7 @@ dependencies {
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
     testCompile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    testCompile 'junit:junit:4.12'
 }
 
 jar {
