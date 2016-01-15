@@ -1,4 +1,4 @@
-package com.mvrt.lib;
+package com.mvrt.lib.api;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

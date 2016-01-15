@@ -1,6 +1,6 @@
 package com.mvrt.frc2016;
 
-import com.mvrt.lib.ConstantsBase;
+import com.mvrt.lib.api.ConstantsBase;
 
 /**
  * A file holding public static constants for the robot.

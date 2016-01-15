@@ -1,10 +1,10 @@
-package com.mvrt.frc2016.lib;
+package com.mvrt.frc2016.lib.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.mvrt.lib.ConstantsBase;
+import com.mvrt.lib.api.ConstantsBase;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
