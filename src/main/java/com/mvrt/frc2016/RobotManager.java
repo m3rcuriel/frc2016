@@ -1,5 +1,7 @@
 package com.mvrt.frc2016;
 
+import com.mvrt.frc2016.system.Robot;
+import com.mvrt.frc2016.system.RobotBuilder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -15,6 +17,17 @@ public class RobotManager extends IterativeRobot {
     DISABLED, AUTONOMOUS, TELEOP;
   }
 
+
+  private static Robot robot;
+
+  /**
+   * Get the robot subsystem representation.
+   *
+   * @return the full {@link Robot}
+   */
+  public Robot get() {
+    return robot;
+  }
 
   private static RobotState robotState = RobotState.DISABLED;
 
@@ -32,6 +45,7 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void robotInit() {
+    robot = RobotBuilder.buildRobot();
   }
 
   /**
@@ -64,6 +78,11 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+
+    double throttle = (robot.operator.throttle.read());
+    double wheel = (robot.operator.wheel.read());
+
+    robot.drive.austinDrive(throttle, wheel, robot.operator.quickturn.isTriggered());
   }
 
   /**
