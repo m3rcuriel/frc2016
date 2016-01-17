@@ -1,5 +1,7 @@
 package com.mvrt.frc2016;
 
+import com.mvrt.frc2016.system.Robot;
+import com.mvrt.frc2016.system.RobotBuilder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -9,12 +11,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  *
  * @author Lee Mracek
  */
-public class Robot extends IterativeRobot {
+public class RobotManager extends IterativeRobot {
 
   public enum RobotState {
     DISABLED, AUTONOMOUS, TELEOP;
   }
-
 
   private static RobotState robotState = RobotState.DISABLED;
 
@@ -30,49 +31,55 @@ public class Robot extends IterativeRobot {
   /**
    * Runs when the robot is initially turned on.
    */
-  @Override public void robotInit() {
-
+  @Override
+  public void robotInit() {
   }
 
   /**
    * Runs once when the robot enters autonomous.
    */
-  @Override public void autonomousInit() {
+  @Override
+  public void autonomousInit() {
     robotState = RobotState.AUTONOMOUS;
   }
 
   /**
    * Loops every approximately 20 ms during the autonomous period.
    */
-  @Override public void autonomousPeriodic() {
+  @Override
+  public void autonomousPeriodic() {
     Scheduler.getInstance().run();
   }
 
   /**
    * Runs once when the robot enteres teleop.
    */
-  @Override public void teleopInit() {
+  @Override
+  public void teleopInit() {
     robotState = RobotState.TELEOP;
   }
 
   /**
    * Loops every approximately 20 ms during the teleoperated period.
    */
-  @Override public void teleopPeriodic() {
+  @Override
+  public void teleopPeriodic() {
     Scheduler.getInstance().run();
   }
 
   /**
    * Runs whenever the robot enters disabled.
    */
-  @Override public void disabledInit() {
+  @Override
+  public void disabledInit() {
     robotState = RobotState.DISABLED;
   }
 
   /**
    * Loops every approximately 20 ms during the disabled period.
    */
-  @Override public void disabledPeriodic() {
+  @Override
+  public void disabledPeriodic() {
     Scheduler.getInstance().run();
   }
 }
