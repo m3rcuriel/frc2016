@@ -49,8 +49,6 @@ public class Hardware {
               () -> joystick.getTwist() * -1, joystick::getX, joystick::getThrottle,
               () -> joystick.getRawButton(1), () -> joystick.getRawButton(2));
     }
-
-    ;
   }
 
 
