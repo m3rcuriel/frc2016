@@ -10,7 +10,7 @@ public class DoubleMatrix {
   /**
    * Construct a DoubleMatrix instance of the given size.
    *
-   * @param width the width of the new matrix
+   * @param width  the width of the new matrix
    * @param height the height of the new matrix
    */
   public DoubleMatrix(int width, int height) {
@@ -24,8 +24,8 @@ public class DoubleMatrix {
    * Construct a new DoubleMatrix with the given single array data.
    *
    * @param height the height of the matrix
-   * @param width the width of the matrix
-   * @param data the 1D array representing the data
+   * @param width  the width of the matrix
+   * @param data   the 1D array representing the data
    */
   public DoubleMatrix(int width, int height, double[] data) {
     this.width = width;
@@ -52,7 +52,7 @@ public class DoubleMatrix {
   /**
    * Construct a new DoubleMatrix of the given size, initialized to 0.
    *
-   * @param width the width of the matrix
+   * @param width  the width of the matrix
    * @param height the height of the matrix
    * @return the new DoubleMatrix
    */
@@ -77,7 +77,7 @@ public class DoubleMatrix {
   /**
    * Construct and identity matrix with a given height and width.
    *
-   * @param width the width of the matrix
+   * @param width  the width of the matrix
    * @param height the height of the matrix
    * @return the newly created identity matrix
    */
@@ -152,8 +152,8 @@ public class DoubleMatrix {
   /**
    * Set a value in the matrix based on the x and y position of that value.
    *
-   * @param x the x position of the value
-   * @param y the y position of the value
+   * @param x     the x position of the value
+   * @param y     the y position of the value
    * @param value the new value for that position
    */
   public void set(int x, int y, double value) {
@@ -166,7 +166,7 @@ public class DoubleMatrix {
   /**
    * Set a value in the matrix based on its internal data position.
    *
-   * @param i the index of the value
+   * @param i     the index of the value
    * @param value the new value
    */
   public void set(int i, double value) {
@@ -262,9 +262,9 @@ public class DoubleMatrix {
 
   /**
    * Multiply this matrix by another matrix.
-   *
+   * <p>
    * This matrix is the pre-multiplied matrix, and the parameter is the post-multiplied.
-   *
+   * <p>
    * A.multiply(B) -- AB
    * NOT
    * A.multiply(B) -- BA
@@ -305,9 +305,9 @@ public class DoubleMatrix {
 
   /**
    * Multiply this matrix by another matrix.
-   *
+   * <p>
    * This matrix is the post-multiplied matrix, and the parameter is the pre-multiplied.
-   *
+   * <p>
    * A.multiply(B) -- BA
    *
    * @param matrix the matrix to multiply with
@@ -385,7 +385,7 @@ public class DoubleMatrix {
     String s = height + " * " + width + " matrix\n";
     for (int i = 0; i < height; i++) {
       String build = "";
-      for (int j = 0; j < width ; j++) {
+      for (int j = 0; j < width; j++) {
         build += "\t" + get(j, i);
       }
       build = build.substring(1);
@@ -495,7 +495,7 @@ public class DoubleMatrix {
           for (int j = 0; j < n; j++) {
             if (j != x) {
               b[p][q++] = m[i][j];
-              if ( q % (n - 1) == 0) {
+              if (q % (n - 1) == 0) {
                 p++;
                 q = 0;
               }

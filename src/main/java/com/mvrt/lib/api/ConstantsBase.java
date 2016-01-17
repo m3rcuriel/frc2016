@@ -38,7 +38,8 @@ public abstract class ConstantsBase {
       this.value = value;
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
       String oname = ((Constant) o).name;
       Class<?> otype = ((Constant) o).type;
       Object ovalue = ((Constant) o).value;

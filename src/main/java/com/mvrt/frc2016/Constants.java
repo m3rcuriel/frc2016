@@ -9,6 +9,15 @@ import com.mvrt.lib.api.ConstantsBase;
  */
 public class Constants extends ConstantsBase {
 
+  public static int kEndEditableArea = 0;
+
+  public static int kDriveLeftFrontId = 0;
+  public static int kDriveLeftRearId = 1;
+  public static int kDriveRightFrontId = 2;
+  public static int kDriveRightRearId = 3;
+
+  public static int kDriveJoystick = 0;
+
   /**
    * Allows the programmer to customize the location of the constants save file.
    *
