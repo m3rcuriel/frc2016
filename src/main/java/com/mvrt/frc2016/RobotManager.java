@@ -1,7 +1,5 @@
 package com.mvrt.frc2016;
 
-import com.mvrt.frc2016.system.Robot;
-import com.mvrt.frc2016.system.RobotBuilder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
