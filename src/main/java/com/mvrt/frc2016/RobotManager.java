@@ -16,6 +16,17 @@ public class RobotManager extends IterativeRobot {
   }
 
 
+  private static Robot robot;
+
+  /**
+   * Get the robot subsystem representation.
+   *
+   * @return the full {@link Robot}
+   */
+  public Robot get() {
+    return robot;
+  }
+
   private static RobotState robotState = RobotState.DISABLED;
 
   /**
@@ -32,6 +43,7 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void robotInit() {
+    robot = RobotBuilder.buildRobot();
   }
 
   /**
@@ -64,6 +76,11 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+
+    double throttle = (robot.operator.throttle.read());
+    double wheel = (robot.operator.wheel.read());
+
+    robot.drive.austinDrive(throttle, wheel, robot.operator.quickturn.isTriggered());
   }
 
   /**
