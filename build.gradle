@@ -59,4 +59,4 @@ checkstyle {
   toolVersion = '6.10'
 }
 
-defaultTasks 'compileJava', 'check'
+defaultTasks 'assemble', 'check'
