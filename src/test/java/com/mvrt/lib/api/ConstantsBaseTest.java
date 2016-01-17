@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.mvrt.lib.api.ConstantsBase;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
@@ -14,8 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-
-
 
 public class ConstantsBaseTest {
   public static class ConstantsTest extends ConstantsBase {
@@ -35,9 +32,9 @@ public class ConstantsBaseTest {
   @Test
   public void testKeyExtraction() {
     Collection<ConstantsBase.Constant> constants = (new ConstantsTest()).getConstants();
-    ConstantsBase.Constant[] expected = new ConstantsBase.Constant[] {
-        new ConstantsBase.Constant("thingA", int.class, 5),
-        new ConstantsBase.Constant("thingB", double.class, 5.115)};
+    ConstantsBase.Constant[] expected =
+        new ConstantsBase.Constant[] {new ConstantsBase.Constant("thingA", int.class, 5),
+            new ConstantsBase.Constant("thingB", double.class, 5.115)};
 
     assertTrue(Arrays.equals(expected, constants.toArray()));
   }

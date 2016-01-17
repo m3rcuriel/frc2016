@@ -15,6 +15,7 @@ public class RobotManager extends IterativeRobot {
     DISABLED, AUTONOMOUS, TELEOP;
   }
 
+
   private static RobotState robotState = RobotState.DISABLED;
 
   /**

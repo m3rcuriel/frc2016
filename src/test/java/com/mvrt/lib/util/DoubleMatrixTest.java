@@ -2,7 +2,6 @@ package com.mvrt.lib.util;
 
 import static org.junit.Assert.assertTrue;
 
-import com.mvrt.lib.util.DoubleMatrix;
 import org.junit.Test;
 
 import java.util.Arrays;

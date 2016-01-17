@@ -23,7 +23,8 @@ public class Constants extends ConstantsBase {
    *
    * @return the string path of the constants file
    */
-  @Override public String getFileLocation() {
+  @Override
+  public String getFileLocation() {
     return "~/constants.txt";
   }
 
