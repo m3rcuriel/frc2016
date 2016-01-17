@@ -1,4 +1,4 @@
-package com.mvrt.frc2016.lib.api;
+package com.mvrt.lib.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

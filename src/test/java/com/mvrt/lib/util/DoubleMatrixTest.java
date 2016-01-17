@@ -1,4 +1,4 @@
-package com.mvrt.frc2016.lib.util;
+package com.mvrt.lib.util;
 
 import static org.junit.Assert.assertTrue;
 
