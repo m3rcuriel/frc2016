@@ -3,6 +3,10 @@ package com.mvrt.frc2016.control.misc;
 import edu.wpi.first.wpilibj.util.BoundaryException;
 
 /**
+ *
+ * Does all computation synchronously (i.e. the calculate() function must be called by the user from
+ * his own thread)
+ *
  * Created by siddharth on 1/17/16.
  */
 public class SynchronousPid {
@@ -22,6 +26,14 @@ public class SynchronousPid {
   private double result = 0.0;
   private double previousInput = Double.NaN;
 
+ /**
+  *
+  * Allocate a PID object with the given constants for P, I, D.
+  *
+  * @param kP the proportional coefficient
+  * @param kI the integral coefficient
+  * @param kD the derivative coefficient
+  */
   public SynchronousPid(double kP, double kI, double kD) {
     cP = kP;
     cI = kI;
@@ -32,6 +44,14 @@ public class SynchronousPid {
     return "PIDController";
   }
 
+
+  /**
+   * Read the input, calculate the output accordingly, and write to the output. This should be
+   * called at a constant rate by the user (ex. in a timed thread).
+   *
+   * @param input the input
+   * @return the calculated output
+   */
   public double calculate(double input) {
     previousInput = input;
     error = setpoint - input;
@@ -62,36 +82,83 @@ public class SynchronousPid {
     return result;
   }
 
+  /**
+   * Set the PID controller gain parameters. Set the proportional, integral, and differential
+   * coefficients.
+   *
+   * @param p Proportional coefficient
+   * @param i Integral coefficient
+   * @param d Differential coefficient
+   */
   public void setPid(double p, double i, double d) {
     this.cP = p;
     this.cI = i;
     this.cD = d;
   }
 
+  /**
+   * Get the Proportional coefficient.
+   *
+   * @return proportional coefficient
+   */
   public double getP() {
     return cP;
   }
 
+  /**
+   * Get the Integral coefficient.
+   *
+   * @return integral coefficient
+   */
   public double getI() {
     return cI;
   }
 
+  /**
+   * Get the Differential coefficient.
+   *
+   * @return differential coefficient
+   */
   public double getD() {
     return cD;
   }
 
+  /**
+   * Return the current PID result This is always centered on zero and constrained the the max and
+   * min outs.
+   *
+   * @return the latest calculated output
+   */
   public double getCurrent() {
     return result;
   }
 
+  /**
+   * Set the PID controller to consider the input to be continuous, Rather then using the max and
+   * min in as constraints, it considers them to be the same point and automatically calculates the
+   * shortest route to the setpoint.
+   *
+   * @param continuous Set to true turns on continuous, false turns off continuous
+   */
   public void setContinuous(boolean continuous) {
     this.continuous = continuous;
   }
 
+  /**
+   * Set the PID controller to consider the input to be continuous, Rather then using the max and
+   * min in as constraints, it considers them to be the same point and automatically calculates the
+   * shortest route to the setpoint.
+   */
   public void setContinuous() {
     this.setContinuous(true);
   }
 
+  /**
+   * Sets the maximum and minimum values expected from the input.
+   *
+   * @param minimumInput the minimum value expected from the input
+   * @param maximumInput the maximum value expected from the output
+   */
   public void setInputRange(double minimumInput, double maximumInput) {
     if (minimumInput > maximumInput) {
       throw new BoundaryException("Lower bound is greater than upper bound");
@@ -101,6 +168,12 @@ public class SynchronousPid {
     setSetpoint(setpoint);
   }
 
+  /**
+   * Sets the minimum and maximum values to write.
+   *
+   * @param minimumOutput the minimum value to write to the output
+   * @param maximumOutput the maximum value to write to the output
+   */
   public void setOutputRange(double minimumOutput, double maximumOutput) {
     if (minimumOutput > maximumOutput) {
       throw new BoundaryException("Lower bound is greater than upper bound");
@@ -109,6 +182,11 @@ public class SynchronousPid {
     this.maxOutput = maximumOutput;
   }
 
+  /**
+   * Set the setpoint for the PID controller.
+   *
+   * @param setpoint the desired setpoint
+   */
   public void setSetpoint(double setpoint) {
     if (maxInput > minInput) {
       if (setpoint > maxInput) {
@@ -123,18 +201,37 @@ public class SynchronousPid {
     }
   }
 
+  /**
+   * Return true if the error is within the tolerance.
+   *
+   * @param tolerance check if on target within a tolerance
+   * @return true if the error is less than the tolerance
+   */
   public boolean onTarget(double tolerance) {
     return previousInput != Double.NaN && Math.abs(previousInput - setpoint) < tolerance;
   }
 
+  /**
+   * Returns the current setpoint of the PID controller.
+   *
+   * @return the current setpoint
+   */
   public double getSetpoint() {
     return setpoint;
   }
 
+  /**
+   * Returns the current difference of the input from the setpoint.
+   *
+   * @return the current error
+   */
   public double getError() {
     return error;
   }
 
+  /**
+   * Reset all internal terms.
+   */
   public void reset() {
     previousInput = Double.NaN;
     previousError = 0;
@@ -142,6 +239,7 @@ public class SynchronousPid {
     result = 0;
     setpoint = 0;
   }
+
 
   public void resetIntegrator() {
     totalError = 0;
