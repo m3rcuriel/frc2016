@@ -7,6 +7,7 @@ package com.mvrt.frc2016.system;
 public class Robot {
   public final DriveInterpreter drive;
   public final OperatorInterface operator;
+  public final RobotBuilder.Components components;
 
   /**
    * Constructs a new robot with the given subsystems.
@@ -14,8 +15,10 @@ public class Robot {
    * @param drive    the {@link DriveInterpreter} on the robot
    * @param operator the {@link OperatorInterface} instance used with the robot
    */
-  public Robot(DriveInterpreter drive, OperatorInterface operator) {
+  public Robot(DriveInterpreter drive, OperatorInterface operator,
+      RobotBuilder.Components components) {
     this.drive = drive;
     this.operator = operator;
+    this.components = components;
   }
 }

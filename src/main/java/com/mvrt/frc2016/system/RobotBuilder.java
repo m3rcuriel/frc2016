@@ -31,7 +31,7 @@ public class RobotBuilder {
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    return new Robot(drive, operator);
+    return new Robot(drive, operator, components);
   }
 
   /**
