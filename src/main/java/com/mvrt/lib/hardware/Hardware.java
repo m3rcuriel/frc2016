@@ -1,10 +1,12 @@
 package com.mvrt.lib.hardware;
 
 import com.mvrt.lib.components.Motor;
+import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.components.oi.FlightStick;
 import com.mvrt.lib.components.oi.InputDevice;
 import com.mvrt.lib.util.Values;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 
 import java.util.function.DoubleFunction;
@@ -48,6 +50,31 @@ public class Hardware {
           .create(joystick::getRawAxis, joystick::getRawButton, joystick::getPOV, joystick::getY,
               () -> joystick.getTwist() * -1, joystick::getX, joystick::getThrottle,
               () -> joystick.getRawButton(1), () -> joystick.getRawButton(2));
+    }
+  }
+
+  public static final class AccumulatedSensors {
+    public static SimpleAccumulatedSensor quadEncoder(int aChannel, int bChannel,
+        double distancePerPulse) {
+      Encoder encoder = new Encoder(aChannel, bChannel);
+      encoder.setDistancePerPulse(distancePerPulse);
+      return new SimpleAccumulatedSensor() {
+        @Override
+        public double getPosition() {
+          return encoder.getDistance();
+        }
+
+        @Override
+        public double getRate() {
+          return encoder.getRate();
+        }
+
+        @Override
+        public SimpleAccumulatedSensor zero() {
+          encoder.reset();
+          return this;
+        }
+      };
     }
   }
 
