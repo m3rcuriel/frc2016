@@ -1,4 +1,4 @@
-package com.mvrt.frc2016.control.misc;
+package com.mvrt.lib.control.misc;
 
 import edu.wpi.first.wpilibj.util.BoundaryException;
 
@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
  */
 public class SynchronousPid {
 
-  private double cP;
-  private double cI;
-  private double cD;
+  private double kP;
+  private double kI;
+  private double kD;
   private double maxOutput;
   private double minOutput;
   private double maxInput;
@@ -23,9 +23,9 @@ public class SynchronousPid {
   private double previousInput = Double.NaN;
 
   public SynchronousPid(double kP, double kI, double kD) {
-    cP = kP;
-    cI = kI;
-    cD = kD;
+    this.kP = kP;
+    this.kI = kI;
+    this.kD = kD;
   }
 
   public String getType() {
@@ -45,13 +45,13 @@ public class SynchronousPid {
       }
     }
 
-    if ((error * cP < maxOutput) && (error * cP > minOutput)) {
+    if ((error * kP < maxOutput) && (error * kP > minOutput)) {
       totalError += error;
     } else {
       totalError = 0;
     }
 
-    result = (cP * error + cI * totalError + cD * (error - previousError));
+    result = (kP * error + kI * totalError + kD * (error - previousError));
     previousError = error;
 
     if (result > maxOutput) {
@@ -63,21 +63,21 @@ public class SynchronousPid {
   }
 
   public void setPid(double p, double i, double d) {
-    this.cP = p;
-    this.cI = i;
-    this.cD = d;
+    this.kP = p;
+    this.kI = i;
+    this.kD = d;
   }
 
   public double getP() {
-    return cP;
+    return kP;
   }
 
   public double getI() {
-    return cI;
+    return kI;
   }
 
   public double getD() {
-    return cD;
+    return kD;
   }
 
   public double getCurrent() {
@@ -150,9 +150,9 @@ public class SynchronousPid {
   public String getState() {
     String lState = "";
 
-    lState += "Proportional Constant: " + cP + "\n";
-    lState += "Integral Constant: " + cI + "\n";
-    lState += "Derivative Constant: " + cD + "\n";
+    lState += "Proportional Constant: " + kP + "\n";
+    lState += "Integral Constant: " + kI + "\n";
+    lState += "Derivative Constant: " + kD + "\n";
 
     return lState;
   }
