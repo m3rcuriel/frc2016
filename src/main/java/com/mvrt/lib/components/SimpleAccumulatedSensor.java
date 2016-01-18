@@ -10,10 +10,25 @@ import java.util.function.DoubleSupplier;
  */
 public interface SimpleAccumulatedSensor {
 
+  /**
+   * Get the current position which has been accumulated.
+   *
+   * @return the current position
+   */
   double getPosition();
 
+  /**
+   * Get the current measured rate.
+   *
+   * @return the current measured rate
+   */
   double getRate();
 
+  /**
+   * Zero the SimpleAccumulatedSensor.
+   *
+   * @return this newly zeroed sensor
+   */
   SimpleAccumulatedSensor zero();
 
   public static SimpleAccumulatedSensor create(DoubleSupplier positionSupplier,
@@ -39,6 +54,12 @@ public interface SimpleAccumulatedSensor {
     };
   }
 
+  /**
+   * Invert a SimpleAccumulatedSensor.
+   *
+   * @param sensor the sensor to invert
+   * @return the inverted sensor
+   */
   static SimpleAccumulatedSensor invert(SimpleAccumulatedSensor sensor) {
     return new SimpleAccumulatedSensor() {
       @Override
