@@ -24,7 +24,6 @@ public class RobotManager extends IterativeRobot {
     DISABLED, AUTONOMOUS, TELEOP;
   }
 
-
   private static Robot robot;
 
   private static Conductor ambientConductor;
@@ -71,6 +70,8 @@ public class RobotManager extends IterativeRobot {
 
     dataLogger.register("Throttle", () -> (short) (robot.operator.throttle.read() * 1000));
     dataLogger.register("Wheel", () -> (short) (robot.operator.wheel.read() * 1000));
+
+    runnables.register(dataLogger);
 
     dataLogger.startup();
 
