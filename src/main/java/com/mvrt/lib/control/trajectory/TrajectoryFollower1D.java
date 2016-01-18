@@ -3,14 +3,29 @@ package com.mvrt.lib.control.trajectory;
 import com.mvrt.lib.util.Values;
 
 /**
- * Created by lee on 1/17/16.
+ * Helpful code to calculate the motor command value for a given position and velocity.
+ *
+ * @author Lee Mracek
  */
 public class TrajectoryFollower1D {
+
+  /**
+   * Class containing configuration information for a TrajectoryFollower1D.
+   */
   public static class TrajectoryConfig {
+    /**
+     * The time period (in seconds).
+     */
     public double dt;
 
+    /**
+     * The maximum acceleration (in units per second^2).
+     */
     public double maxAcceleration;
 
+    /**
+     * The maximum velocity (in units per second).
+     */
     public double maxVelocity;
 
     @Override
@@ -20,11 +35,23 @@ public class TrajectoryFollower1D {
   }
 
 
+  /**
+   * Class representing a simple setpoint as part of a trajectory.
+   */
   public static class TrajectorySetpoint {
+    /**
+     * The current position.
+     */
     public double position;
 
+    /**
+     * The current velocity.
+     */
     public double velocity;
 
+    /**
+     * The current acceleration.
+     */
     public double acceleration;
 
     @Override
@@ -45,6 +72,16 @@ public class TrajectoryFollower1D {
   private double goalPosition;
   private TrajectorySetpoint currentState = new TrajectorySetpoint();
 
+  /**
+   * Initialize a TrajectoryFollower1D with the given constants.
+   *
+   * @param kP the proportional constant
+   * @param kI the integral constant
+   * @param kD the derivative constant
+   * @param kV the velocity constant
+   * @param kA the acceleration constant
+   * @param config the given {@link TrajectoryConfig}.
+   */
   public void initialize(double kP, double kI, double kD, double kV, double kA,
       TrajectoryConfig config) {
     this.kP = kP;
@@ -55,6 +92,12 @@ public class TrajectoryFollower1D {
     this.config = config;
   }
 
+  /**
+   * Set the goal for this TrajectoryFollower1D.
+   *
+   * @param currentState the current setpoint of the robot in motion
+   * @param goalPosition the goal position of the robot
+   */
   public void setGoal(TrajectorySetpoint currentState, double goalPosition) {
     this.goalPosition = goalPosition;
     this.currentState = currentState;
@@ -62,14 +105,31 @@ public class TrajectoryFollower1D {
     errorSum = 0F;
   }
 
+  /**
+   * Retrieve the current goal position of the follower.
+   *
+   * @return the goal position as a double.
+   */
   public double getGoal() {
     return goalPosition;
   }
 
+  /**
+   * Set the configuration of the follower.
+   *
+   * @param config the configuration to set it to.
+   */
   public void setConfig(TrajectoryConfig config) {
     this.config = config;
   }
 
+  /**
+   * Calculate the motor command based on the position and velocity.
+   *
+   * @param position the current position
+   * @param velocity the current velocity
+   * @return the calculated motor command
+   */
   public double calculate(double position, double velocity) {
     double dt = config.dt;
 
@@ -161,10 +221,29 @@ public class TrajectoryFollower1D {
     return output;
   }
 
+  /**
+   * Retrieve the current setpoint.
+   *
+   * @return the current setpoint
+   */
   public TrajectoryFollower1D.TrajectorySetpoint getCurrentSetpoint() {
     return this.currentState;
   }
 
+  /**
+   * Retrieve the configuration of this TrajectoryFollower1D.
+   *
+   * @return the config
+   */
+  public TrajectoryConfig getConfig() {
+    return config;
+  }
+
+  /**
+   * Has the TrajectoryFollower1D completed the trajectory.
+   *
+   * @return true if the trajectory is completed
+   */
   public boolean isFinishedTrajectory() {
     return Values.fuzzyCompare(currentState.position - goalPosition, 0, 10) == 0
         && Values.fuzzyCompare(currentState.velocity, 0, 6) == 0;
