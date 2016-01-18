@@ -1,6 +1,7 @@
 package com.mvrt.frc2016.system;
 
 import com.mvrt.frc2016.Constants;
+import com.mvrt.frc2016.subsystems.Shooter;
 import com.mvrt.lib.components.DriveTrain;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.hardware.Hardware;
@@ -28,7 +29,9 @@ public class RobotBuilder {
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    return new Robot(drive, operator);
+    Shooter shooter = new Shooter();
+
+    return new Robot(drive, operator, shooter);
   }
 
   /**

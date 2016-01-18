@@ -9,33 +9,32 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Shooter extends Subsystem {
 
-    private CANTalon leftShoot;
-    private CANTalon rightShoot;
-    private CANTalon rotate;
+  private CANTalon leftShoot;
+  private CANTalon rightShoot;
+  private CANTalon rotate;
 
 
-    public Shooter(){
-        leftShoot = new CANTalon(Constants.leftShooterId);
-        rightShoot = new CANTalon(Constants.rightShooterId);
-        rotate = new CANTalon(Constants.rotateAxisId);
+  public Shooter() {
+    leftShoot = new CANTalon(Constants.leftShooterId);
+    rightShoot = new CANTalon(Constants.rightShooterId);
+    rotate = new CANTalon(Constants.rotateAxisId);
 
-        leftShoot.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
+    leftShoot.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
 
-        rightShoot.changeControlMode(CANTalon.TalonControlMode.Follower);
-        rightShoot.set(leftShoot.getDeviceID());
-    }
+    rightShoot.changeControlMode(CANTalon.TalonControlMode.Follower);
+    rightShoot.set(leftShoot.getDeviceID());
+  }
 
-    //TODO: add the code for the rotating stuff
-    @Override
-    protected void initDefaultCommand() {
+  //TODO: add the code for the rotating stuff
+  @Override protected void initDefaultCommand() {
 
-    }
+  }
 
-    public void stop(){
-        leftShoot.set(0);
-    }
+  public void stop() {
+    leftShoot.set(0);
+  }
 
-    public void setSpeed(double spd){
-        leftShoot.set(spd);
-    }
+  public void setSpeed(double spd) {
+    leftShoot.set(spd);
+  }
 }
