@@ -6,7 +6,9 @@ import com.mvrt.frc2016.system.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Created by siddharth on 1/17/16.
+ * Roll wheels outwards to shoot the boulder.
+ *
+ * @author Siddharth Gollapudi
  */
 public class Fire extends Command {
 

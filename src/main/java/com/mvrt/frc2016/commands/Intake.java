@@ -4,7 +4,10 @@ import com.mvrt.frc2016.subsystems.Shooter;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Created by siddharth on 1/17/16.
+ *
+ * Rotate the wheels inward to intake boulders.
+ *
+ * @author Siddharth
  */
 public class Intake extends Command {
 

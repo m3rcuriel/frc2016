@@ -5,7 +5,10 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * Created by siddharth on 1/17/16.
+ *
+ * Code for the Shooter subsystem. Used in the Rotate, Fire, and Intake commands.
+ *
+ * @author Siddharth Gollapudi
  */
 public class Shooter extends Subsystem {
 
