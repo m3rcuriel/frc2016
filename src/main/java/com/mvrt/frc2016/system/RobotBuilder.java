@@ -3,6 +3,7 @@ package com.mvrt.frc2016.system;
 import com.mvrt.frc2016.Constants;
 import com.mvrt.lib.components.DriveTrain;
 import com.mvrt.lib.components.Motor;
+import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.hardware.Hardware;
 
 /**
@@ -21,9 +22,11 @@ public class RobotBuilder {
   public static Robot buildRobot() {
     Components components = new Components();
 
-    DriveInterpreter drive = new DriveInterpreter(DriveTrain
+    DriveTrain driveTrain = DriveTrain
         .create(Motor.invert(Motor.compose(components.leftFront, components.leftRear)),
-            Motor.compose(components.rightFront, components.rightRear)));
+            Motor.compose(components.rightFront, components.rightRear));
+
+    DriveInterpreter drive = new DriveInterpreter(driveTrain);
 
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
@@ -45,5 +48,12 @@ public class RobotBuilder {
     public final Motor leftRear = Hardware.Motors.talonSrxRaw(Constants.kDriveLeftRearId);
     public final Motor rightFront = Hardware.Motors.talonSrxRaw(Constants.kDriveRightFrontId);
     public final Motor rightRear = Hardware.Motors.talonSrxRaw(Constants.kDriveRightRearId);
+
+    public final SimpleAccumulatedSensor leftFrontEncoder = Hardware.AccumulatedSensors
+        .quadEncoder(Constants.kDriveLeftFrontEncoderA, Constants.kDriveLeftFrontEncoderB,
+            Constants.kDriveDistancePerTick);
+    public final SimpleAccumulatedSensor rightFrontEncoder = Hardware.AccumulatedSensors
+        .quadEncoder(Constants.kDriveRightFrontEncoderA, Constants.kDriveRightFrontEncoderB,
+            Constants.kDriveDistancePerTick);
   }
 }
