@@ -18,6 +18,10 @@ public class Constants extends ConstantsBase {
 
   public static int kDriveJoystick = 0;
 
+  public static int leftShooterId = 5;
+  public static int rightShooterId = 6;
+  public static int rotateAxisId = 7;
+
   /**
    * Allows the programmer to customize the location of the constants save file.
    *
