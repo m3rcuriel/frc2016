@@ -240,11 +240,14 @@ public class SynchronousPid {
     setpoint = 0;
   }
 
-
+  /**
+   * Reset the integrator term to 0.
+   */
   public void resetIntegrator() {
     totalError = 0;
   }
 
+  @Override
   public String toString() {
     String lState = "";
 
