@@ -14,7 +14,7 @@ public class SynchronousPid {
   private double kP;
   private double kI;
   private double kD;
-  private double maxOutput;
+  private double maxOutput; //max outputv
   private double minOutput;
   private double maxInput;
   private double minInput;
@@ -26,7 +26,7 @@ public class SynchronousPid {
   private double result = 0.0;
   private double previousInput = Double.NaN;
 
- /**
+  /**
   *
   * Allocate a PID object with the given constants for P, I, D.
   *
