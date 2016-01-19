@@ -30,7 +30,7 @@ public interface AngleSensor extends ReZeroable {
 
   /**
    * Zero sensor.
-   * @return zeroed anglesensor
+   * @return zeroed AngleSensor
    */
   @Override
   public default AngleSensor zero() {

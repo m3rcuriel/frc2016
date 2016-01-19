@@ -26,14 +26,12 @@ import java.util.function.DoubleFunction;
 
 /**
  * Contains factory methods to create implementatoins corresponding to physical hardware.
- * <p>
+ * <br>
  * Subsystems, etc, should not know how to obtain components. Instead, the components should
  * be passed in via constructors; the references to components can be immutable and final.
- * <p>
+ * <br>
  * This means subsystems can be tested off-robot without hardware by passing mock components
  * into the subsystem constructors.
- *
- * @author Siddharth Gollapudi, Lee Mracek
  */
 public class Hardware {
 
@@ -110,15 +108,18 @@ public class Hardware {
       Encoder encoder = new Encoder(aChannel, bChannel);
       encoder.setDistancePerPulse(distancePerPulse);
       return new SimpleAccumulatedSensor() {
-        @Override public double getPosition() {
+        @Override
+        public double getPosition() {
           return encoder.getDistance();
         }
 
-        @Override public double getRate() {
+        @Override
+        public double getRate() {
           return encoder.getRate();
         }
 
-        @Override public SimpleAccumulatedSensor zero() {
+        @Override
+        public SimpleAccumulatedSensor zero() {
           encoder.reset();
           return this;
         }
@@ -131,7 +132,6 @@ public class Hardware {
    * Inner class to construct any angle measuring sensors.
    */
   public static final class AngleSensors {
-    //TODO: write Gyro component pls
 
     /**
      * Generator for creating an Encoder.
@@ -167,12 +167,12 @@ public class Hardware {
 
     /**
      * Generator for a digital ultrasonic sensor.
+     *
      * @param pingChannel The digital output channel that sends the pulse to
      *                    initiate the sensor sending the ping.
-     *
      * @param echoChannel The digital input channel that receives the echo. The
      *                    length of time that the echo is high represents the round trip time
-     *                     of the ping, and the distance.
+     *                    of the ping, and the distance.
      * @return a created digital ultrasonic sensor
      */
     public static DistanceSensor digitalUltrasonic(int pingChannel, int echoChannel) {
@@ -183,7 +183,8 @@ public class Hardware {
 
     /**
      * Generator for an analogUltrasonic sensor.
-     * @param channel The channel number to represent
+     *
+     * @param channel       The channel number to represent
      * @param voltsToInches use voltage to get distance
      * @return a created Distance Sensor
      */
@@ -194,7 +195,8 @@ public class Hardware {
 
     /**
      * Generator for a potentiometer.
-     * @param channel The channel number to represent
+     *
+     * @param channel                  The channel number to represent
      * @param fullVoltageRangeToInches convert the obtained voltage to inches
      * @return an analog potentiometer
      */
@@ -228,6 +230,7 @@ public class Hardware {
     }
   }
 
+
   /**
    * Inner class to construct any angle measuring sensors.
    */
@@ -235,8 +238,9 @@ public class Hardware {
 
     /**
      * Generator for a double solenoid.
-     * @param extendChannel The forward channel on the module to control
-     * @param retractChannel The reverse channel on the module to control
+     *
+     * @param extendChannel    The forward channel on the module to control
+     * @param retractChannel   The reverse channel on the module to control
      * @param initialDirection which direction the solenoid is first in
      * @return a solenoid w/out a module
      */
@@ -248,9 +252,10 @@ public class Hardware {
 
     /**
      * Generator for a double solenoid with a module number.
-     * @param module module number of solenoid module
-     * @param extendChannel The forward channel on the module to control
-     * @param retractChannel The reverse channel on the module to control
+     *
+     * @param module           module number of solenoid module
+     * @param extendChannel    The forward channel on the module to control
+     * @param retractChannel   The reverse channel on the module to control
      * @param initialDirection which direction the solenoid is first in
      * @return solenoid with module
      */
@@ -259,9 +264,6 @@ public class Hardware {
       DoubleSolenoid solenoid = new DoubleSolenoid(module, extendChannel, retractChannel);
       return new HardwareDoubleSolenoid(solenoid, initialDirection);
     }
-
-
-    // TODO add Relay
   }
 
 
@@ -272,6 +274,7 @@ public class Hardware {
 
     /**
      * Switch that is normally closed.
+     *
      * @param channel the DIO channel
      * @return return a normally closed switch
      */
@@ -282,6 +285,7 @@ public class Hardware {
 
     /**
      * Switch that is normally open.
+     *
      * @param channel the DIO channel
      * @return return a normally open switch
      */
@@ -301,11 +305,12 @@ public class Hardware {
 
     /**
      * Make an analog switch.
-     * @param channel the DIO channel
+     *
+     * @param channel      the DIO channel
      * @param lowerVoltage the lower bound voltage
      * @param upperVoltage upper bound voltage
-     * @param option the option
-     * @param mode the triggermode
+     * @param option       the option
+     * @param mode         the triggermode
      * @return an analog switch
      */
     public static Switch analog(int channel, double lowerVoltage, double upperVoltage,

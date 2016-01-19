@@ -88,7 +88,7 @@ public interface Relay {
   }
 
   /**
-   * Construct a new Relay which switching instantaneously from on to off.
+   * Construct a new Relay which switches instantaneously from on to off.
    *
    * @param switcher a Consumer to switch the Relay
    * @param onState the method to read the state

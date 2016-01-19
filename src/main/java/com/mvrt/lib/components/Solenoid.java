@@ -32,7 +32,7 @@ public interface Solenoid {
    */
   Solenoid retract();
 
-  //I pray that these are self-explanatory to whomever is reading this.
+  // I pray that these are self-explanatory to whomever is reading this.
   default boolean isExtending() {
     return getDirection() == Direction.EXTENDING;
   }
