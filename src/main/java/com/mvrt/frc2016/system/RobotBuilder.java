@@ -1,10 +1,12 @@
 package com.mvrt.frc2016.system;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.mvrt.frc2016.Constants;
 import com.mvrt.lib.components.DriveTrain;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.hardware.Hardware;
+import edu.wpi.first.wpilibj.SPI;
 
 /**
  * The builder class for the robot. Instantiates the {@link Robot} which will be used, as well as
@@ -31,7 +33,7 @@ public class RobotBuilder {
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    return new Robot(drive, operator, components);
+    return new Robot(drive, operator, components.navX, components);
   }
 
   /**
@@ -55,5 +57,7 @@ public class RobotBuilder {
     public final SimpleAccumulatedSensor rightFrontEncoder = Hardware.AccumulatedSensors
         .quadEncoder(Constants.kDriveRightFrontEncoderA, Constants.kDriveRightFrontEncoderB,
             Constants.kDriveDistancePerTick);
+
+    public final AHRS navX = new AHRS(SPI.Port.kMXP);
   }
 }
