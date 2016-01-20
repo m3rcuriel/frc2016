@@ -24,3 +24,6 @@ a\b\c\frc2016 ~ gradlew assemble
 Both of these checks are to make sure your code a) compiles and b) is formatted correctly.
 If you don't perform these commands, you will waste valuable time by making pull requests for bad code.
 If you are having trouble, contact a code lead and he/she will help you.
+
+####Authorship.
+If you do not properly author your commits, they will simply be merged as is and someone else will get credit for your 1000 line PR. I do *not* care what the reason is.
