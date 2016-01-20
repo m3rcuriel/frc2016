@@ -26,4 +26,4 @@ If you don't perform these commands, you will waste valuable time by making pull
 If you are having trouble, contact a code lead and he/she will help you.
 
 ####Authorship
-If you do not properly author your commits, they will simply be merged as is and someone else will get credit for your 1000 line PR. I do *not* care what the reason is.
+If you do not properly author your commits, they will simply be merged as is and someone else will get credit for your 1000 line PR. I do **not** care what the reason is.
