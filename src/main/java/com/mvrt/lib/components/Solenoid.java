@@ -44,6 +44,4 @@ public interface Solenoid {
   default boolean isStopped() {
     return getDirection() == Direction.STOPPED;
   }
-
-
 }
