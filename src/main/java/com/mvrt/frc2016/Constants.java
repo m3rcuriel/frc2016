@@ -20,6 +20,10 @@ public class Constants extends ConstantsBase {
 
   public static int kDriveJoystick = 0;
 
+  public static int kLeftShooterId = 5;
+  public static int kRightShooterId = 6;
+  public static int kRotateShooterId = 7;
+
   public static int kDriveLeftFrontEncoderA = 0;
   public static int kDriveLeftFrontEncoderB = 1;
   public static int kDriveRightFrontEncoderA = 2;
