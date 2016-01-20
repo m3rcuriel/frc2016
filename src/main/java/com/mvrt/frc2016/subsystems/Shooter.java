@@ -22,9 +22,9 @@ public class Shooter extends Subsystem {
    * Initialize all the motors controllers, and set them up for use.
    */
   public Shooter() {
-    leftShoot = new CANTalon(Constants.leftShooterId);
-    rightShoot = new CANTalon(Constants.rightShooterId);
-    rotate = new CANTalon(Constants.rotateAxisId);
+    leftShoot = new CANTalon(Constants.kLeftShooterId);
+    rightShoot = new CANTalon(Constants.kRightShooterId);
+    rotate = new CANTalon(Constants.kRotateShooterId);
 
     leftShoot.setFeedbackDevice(CANTalon.FeedbackDevice.AnalogEncoder);
 
