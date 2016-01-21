@@ -1,6 +1,7 @@
 package com.mvrt.frc2016.system;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.mvrt.frc2016.subsystems.DriveSystem;
 
 /**
  * The class which contains all components and subsystems of the robot. Used to access these methods
@@ -11,6 +12,7 @@ public class Robot {
   public final OperatorInterface operator;
   public final AHRS navX;
   public final RobotBuilder.Components components;
+  public final DriveSystem driveSystem;
 
   /**
    * Constructs a new robot with the given subsystems.
@@ -21,10 +23,11 @@ public class Robot {
    * @param components the {@link RobotBuilder.Components} representing miscellaneous parts
    */
   public Robot(DriveInterpreter drive, OperatorInterface operator, AHRS navX,
-      RobotBuilder.Components components) {
+      RobotBuilder.Components components, DriveSystem driveSystem) {
     this.drive = drive;
     this.operator = operator;
     this.navX = navX;
     this.components = components;
+    this.driveSystem = driveSystem;
   }
 }
