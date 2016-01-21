@@ -83,7 +83,7 @@ public class DriveState {
   }
 
   /**
-   * Retrieve the right encoder velocity
+   * Retrieve the right encoder velocity.
    *
    * @return the right encoder velocity
    */
