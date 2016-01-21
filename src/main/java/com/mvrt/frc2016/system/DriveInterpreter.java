@@ -1,6 +1,7 @@
 package com.mvrt.frc2016.system;
 
 import com.mvrt.lib.components.DriveTrain;
+import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.util.Values;
 
 import java.util.function.DoubleFunction;
@@ -33,7 +34,7 @@ public class DriveInterpreter {
    * Stop the {@link DriveTrain}.
    */
   public void stop() {
-    this.driveTrain.drive(0.0, 0.0);
+    this.driveTrain.drive(DriveSignal.NEUTRAL);
   }
 
   /**
@@ -85,7 +86,7 @@ public class DriveInterpreter {
       }
     }
 
-    this.driveTrain.drive(leftMotorSpeed, rightMotorSpeed);
+    this.driveTrain.drive(new DriveSignal(leftMotorSpeed, rightMotorSpeed));
   }
 
   private double squareInputs(double speed) {
@@ -109,7 +110,7 @@ public class DriveInterpreter {
       rightSpeed = squareInputs(rightSpeed);
     }
 
-    this.driveTrain.drive(leftSpeed, rightSpeed);
+    this.driveTrain.drive(new DriveSignal(leftSpeed, rightSpeed));
   }
 
   /**
@@ -121,7 +122,7 @@ public class DriveInterpreter {
   public void tank(double leftSpeed, double rightSpeed) {
     leftSpeed = limiter.apply(leftSpeed);
     rightSpeed = limiter.apply(rightSpeed);
-    this.driveTrain.drive(leftSpeed, rightSpeed);
+    this.driveTrain.drive(new DriveSignal(leftSpeed, rightSpeed));
   }
 
   private double oldWheel = 0.0;
@@ -220,7 +221,7 @@ public class DriveInterpreter {
       rightPwm = -1.0;
     }
 
-    driveTrain.drive(leftPwm, rightPwm);
+    driveTrain.drive(new DriveSignal(leftPwm, rightPwm));
   }
 
   private static double dampen(double wheel, double wheelNonLinearity) {

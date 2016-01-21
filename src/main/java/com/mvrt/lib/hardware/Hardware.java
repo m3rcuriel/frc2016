@@ -1,7 +1,9 @@
 package com.mvrt.lib.hardware;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.mvrt.lib.components.AngleSensor;
 import com.mvrt.lib.components.DistanceSensor;
+import com.mvrt.lib.components.Gyroscope;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.PneumaticsControlModule;
 import com.mvrt.lib.components.PowerDistributionPanel;
@@ -335,5 +337,30 @@ public class Hardware {
       }
       return mode == TriggerMode.AVERAGED ? trigger::getTriggerState : trigger::getInWindow;
     }
+  }
+
+  public static Gyroscope ahrsAsGyroscope(AHRS ahrs) {
+    return new Gyroscope() {
+
+      @Override
+      public double getRate() {
+        return ahrs.getRate();
+      }
+
+      @Override
+      public double getAngle() {
+        return ahrs.getAngle();
+      }
+
+      @Override
+      public void reset() {
+        ahrs.reset();
+      }
+
+      @Override
+      public double getRawAngle() {
+        return ahrs.getAngle();
+      }
+    };
   }
 }
