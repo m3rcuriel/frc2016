@@ -13,6 +13,8 @@ import com.mvrt.lib.control.misc.DriveState;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * This year's Robot drive train subsystem.
+ *
  * @author Lee Mracek
  */
 public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
@@ -25,6 +27,16 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
 
   private DriveState driveState = new DriveState(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+  /**
+   * Construct the frc2016 DriveSystem based on relevant components.
+   *
+   * @param name the name of the Subsystem
+   * @param leftMotor the left motor
+   * @param rightMotor the right motor
+   * @param leftEncoder the encoder for the left side of the robot
+   * @param rightEncoder the encoder for the right side of the robot
+   * @param gyroscope the gyroscope representing the robot heading and angular velocity.
+   */
   public DriveSystem(String name, Motor leftMotor, Motor rightMotor,
       SimpleAccumulatedSensor leftEncoder, SimpleAccumulatedSensor rightEncoder,
       Gyroscope gyroscope) {
@@ -36,16 +48,30 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     this.gyroscope = gyroscope;
   }
 
+  /**
+   * Set the DriveSystem to a specific output {@link DriveSignal} and eliminate the current
+   * {@link DriveController}.
+   *
+   * @param signal the desired drive output
+   */
   public void setOpenLoop(DriveSignal signal) {
     controller = null;
     this.drive(signal);
   }
 
+  /**
+   * Reset the distance readings of the DriveSystem.
+   */
   public void reset() {
     leftEncoder.zero();
     rightEncoder.zero();
   }
 
+  /**
+   * Drive the robot on a specific {@link DriveSignal}.
+   *
+   * @param signal the desired motor output
+   */
   @Override
   public void drive(DriveSignal signal) {
     this.leftMotor.setSpeed(signal.leftMotor);
@@ -60,10 +86,22 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     drive(controller.update(getDriveState()));
   }
 
+  /**
+   * Retrieve the current {@link DriveController}.
+   *
+   * May be null.
+   *
+   * @return the currently-used {@link DriveController}
+   */
   public DriveController getController() {
     return controller;
   }
 
+  /**
+   * Retrieve the current {@link DriveState} of the robot using encoder values and gyroscope data.
+   *
+   * @return the current {@link DriveState}
+   */
   public DriveState getDriveState() {
     driveState.reset(leftEncoder.getPosition(), rightEncoder.getPosition(), leftEncoder.getRate(),
         rightEncoder.getRate(), gyroscope.getHeading(), gyroscope.getRate());
