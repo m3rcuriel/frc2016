@@ -9,10 +9,20 @@ package com.mvrt.lib.api;
 public abstract class Subsystem {
   private String name;
 
+  /**
+   * Construct a new subsystem with a name for retrieval.
+   *
+   * @param name the name of the subsystem
+   */
   public Subsystem(String name) {
     this.name = name;
   }
 
+  /**
+   * Retrieve the name of the Subsystem.
+   *
+   * @return the name of the Subsystem
+   */
   public String getName() {
     return name;
   }

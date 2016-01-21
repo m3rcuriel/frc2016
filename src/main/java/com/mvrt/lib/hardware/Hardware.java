@@ -339,6 +339,12 @@ public class Hardware {
     }
   }
 
+  /**
+   * Represent a NavX AHRS as a Gyroscope.
+   *
+   * @param ahrs the AHRS to cast
+   * @return the a Gyroscope implementation
+   */
   public static Gyroscope ahrsAsGyroscope(AHRS ahrs) {
     return new Gyroscope() {
 
@@ -353,7 +359,7 @@ public class Hardware {
       }
 
       @Override
-      public void reset() {
+      public void zero() {
         ahrs.reset();
       }
 

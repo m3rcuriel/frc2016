@@ -8,7 +8,9 @@ import com.mvrt.lib.control.misc.PidConstants;
 import com.mvrt.lib.control.trajectory.TrajectoryFollower1D;
 
 /**
- * Created by lee on 1/21/16.
+ * Controller to make the robot turn in place.
+ *
+ * @author Lee Mracek
  */
 public class TurnInPlaceController extends DriveController {
   private final TrajectoryFollowingPositionController1D controller;
