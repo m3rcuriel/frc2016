@@ -9,6 +9,9 @@ import com.mvrt.lib.control.misc.SynchronousPid;
 import com.mvrt.lib.control.trajectory.TrajectoryFollower1D;
 
 /**
+ * A controller which makes the robot drive forwards a set distance while using a PID algorithm
+ * to hold it in a straight line.
+ *
  * @author Lee Mracek
  */
 public class DriveStraightController extends DriveController {

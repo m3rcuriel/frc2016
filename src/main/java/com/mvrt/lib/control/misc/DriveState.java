@@ -11,7 +11,8 @@ public class DriveState {
   private double heading;
   private double headingVelocity;
 
-  public DriveState(double leftDistance, double rightDistance, double leftVelocity, double rightVelocity, double heading, double headingVelocity) {
+  public DriveState(double leftDistance, double rightDistance, double leftVelocity,
+      double rightVelocity, double heading, double headingVelocity) {
     this.leftDistance = leftDistance;
     this.rightDistance = rightDistance;
     this.leftVelocity = leftVelocity;
@@ -20,8 +21,8 @@ public class DriveState {
     this.headingVelocity = headingVelocity;
   }
 
-  public void reset(double leftDistance, double rightDistance, double leftVelocity, double
-      rightVelocity, double heading, double headingVelocity) {
+  public void reset(double leftDistance, double rightDistance, double leftVelocity,
+      double rightVelocity, double heading, double headingVelocity) {
     this.leftDistance = leftDistance;
     this.rightDistance = rightDistance;
     this.leftVelocity = leftVelocity;

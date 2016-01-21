@@ -13,6 +13,8 @@ import com.mvrt.lib.control.misc.DriveState;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * This year's Robot drive train subsystem.
+ *
  * @author Lee Mracek
  */
 public class DriveSystem extends Subsystem implements DriveTrain, Runnable {

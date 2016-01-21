@@ -46,7 +46,7 @@ public class HardwareDoubleSolenoid implements Solenoid {
 
   /**
    * Get the direction of this solenoid.
-   * @return the {@link Direction} of the solenoid.
+   * @return the {@link com.mvrt.lib.components.Solenoid.Direction} of the solenoid.
    */
   @Override
   public Direction getDirection() {

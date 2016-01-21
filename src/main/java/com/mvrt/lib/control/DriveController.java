@@ -4,6 +4,9 @@ import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
 
 /**
+ * A controller specifically for the drive which uses the current robot state to generate a
+ * DriveSignal response.
+ *
  * @author Lee Mracek
  */
 public abstract class DriveController extends Controller {
