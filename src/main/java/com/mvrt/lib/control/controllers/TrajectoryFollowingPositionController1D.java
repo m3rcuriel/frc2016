@@ -1,5 +1,6 @@
-package com.mvrt.lib.control;
+package com.mvrt.lib.control.controllers;
 
+import com.mvrt.lib.control.Controller;
 import com.mvrt.lib.control.trajectory.TrajectoryFollower1D;
 
 /**
