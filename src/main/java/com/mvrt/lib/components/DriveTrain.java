@@ -1,5 +1,8 @@
 package com.mvrt.lib.components;
 
+import com.mvrt.lib.control.Controller;
+import com.mvrt.lib.control.misc.DriveSignal;
+
 /**
  * This interface is an abstract representation of a DriveTrain which has the
  * ability to control both motors.
@@ -7,7 +10,7 @@ package com.mvrt.lib.components;
  * @author Lee Mracek
  */
 public interface DriveTrain {
-  void drive(double leftMotor, double rightMotor);
+  void drive(DriveSignal signal);
 
   /**
    * Construct a new DriveTrain object from a left and right motor.
@@ -24,9 +27,9 @@ public interface DriveTrain {
       throw new IllegalArgumentException("Right Motor cannot be null");
     }
 
-    return ((leftMotor, rightMotor) -> {
-      left.setSpeed(leftMotor);
-      right.setSpeed(rightMotor);
+    return ((signal) -> {
+      left.setSpeed(signal.leftMotor);
+      right.setSpeed(signal.rightMotor);
     });
   }
 }
