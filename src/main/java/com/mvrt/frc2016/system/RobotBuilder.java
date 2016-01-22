@@ -2,7 +2,7 @@ package com.mvrt.frc2016.system;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.mvrt.frc2016.Constants;
-import com.mvrt.lib.components.DriveTrain;
+import com.mvrt.frc2016.subsystems.DriveSystem;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.hardware.Hardware;
@@ -24,16 +24,17 @@ public class RobotBuilder {
   public static Robot buildRobot() {
     Components components = new Components();
 
-    DriveTrain driveTrain = DriveTrain
-        .create(Motor.invert(Motor.compose(components.leftFront, components.leftRear)),
-            Motor.compose(components.rightFront, components.rightRear));
+    DriveSystem driveSystem = new DriveSystem("Drive System",
+        Motor.invert(Motor.compose(components.leftFront, components.leftRear)),
+        Motor.compose(components.rightFront, components.rightRear), components.leftFrontEncoder,
+        components.rightFrontEncoder, Hardware.ahrsAsGyroscope(components.navX));
 
-    DriveInterpreter drive = new DriveInterpreter(driveTrain);
+    DriveInterpreter drive = new DriveInterpreter(driveSystem);
 
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    return new Robot(drive, operator, components.navX, components);
+    return new Robot(drive, operator, components.navX, components, driveSystem);
   }
 
   /**

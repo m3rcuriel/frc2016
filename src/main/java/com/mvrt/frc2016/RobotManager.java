@@ -6,6 +6,7 @@ import com.mvrt.lib.DataLogger;
 import com.mvrt.lib.api.Conductor;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
+import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.util.Metronome;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -26,9 +27,18 @@ public class RobotManager extends IterativeRobot {
 
   private static Robot robot;
 
+  public static final long AMBIENT_MILLISECONDS = 30;
+
   private static Conductor ambientConductor;
-  private static Runnables runnables;
+  private static Runnables ambientRunnables;
   private static Metronome ambientMetronome;
+
+  public static final long CONTROLLERS_MILLISECONDS = 5;
+
+  private static Conductor controllersConductor;
+  private static Runnables controllersRunnables;
+  private static Metronome controllersMetronome;
+
   private static Clock robotClock;
 
   /**
@@ -62,16 +72,24 @@ public class RobotManager extends IterativeRobot {
 
     robotClock = Clock.fpgaOrSystem();
 
-    runnables = new Runnables();
+    controllersRunnables = new Runnables();
+    controllersMetronome = Metronome.metronome(CONTROLLERS_MILLISECONDS, TimeUnit.MILLISECONDS,
+        robotClock);
+    controllersConductor = new Conductor("Controllers Conductor", controllersRunnables,
+        robotClock, controllersMetronome, null);
 
-    ambientMetronome = Metronome.metronome(20, TimeUnit.MILLISECONDS, robotClock);
+    controllersRunnables.register(robot.driveSystem);
+
+    ambientRunnables = new Runnables();
+
+    ambientMetronome = Metronome.metronome(AMBIENT_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
     ambientConductor =
-        new Conductor("Ambient Conductor", runnables, robotClock, ambientMetronome, null);
+        new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
 
     dataLogger.register("Throttle", () -> (short) (robot.operator.throttle.read() * 1000));
     dataLogger.register("Wheel", () -> (short) (robot.operator.wheel.read() * 1000));
 
-    runnables.register(dataLogger);
+    ambientRunnables.register(dataLogger);
 
     dataLogger.startup();
 
@@ -84,6 +102,10 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void autonomousInit() {
     robotState = RobotState.AUTONOMOUS;
+
+    robot.driveSystem.reset();
+
+    controllersConductor.start();
   }
 
   /**
@@ -91,7 +113,6 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
   }
 
   /**
@@ -107,8 +128,6 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-
     double throttle = (robot.operator.throttle.read());
     double wheel = (robot.operator.wheel.read());
 
@@ -121,6 +140,12 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void disabledInit() {
     robotState = RobotState.DISABLED;
+
+    controllersConductor.start();
+
+    robot.driveSystem.setOpenLoop(DriveSignal.NEUTRAL);
+
+    System.gc();
   }
 
   /**
