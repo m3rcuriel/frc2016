@@ -1,7 +1,8 @@
 package com.mvrt.lib.hardware;
 
-import com.mvrt.lib.components.SpeedController;
 import com.mvrt.lib.components.Switch;
+import com.mvrt.lib.components.TalonSrx;
+import com.mvrt.lib.util.DoubleMatrix;
 import edu.wpi.first.wpilibj.CANTalon;
 
 import java.util.function.DoubleFunction;
@@ -11,163 +12,221 @@ import java.util.function.DoubleFunction;
  * speed.
  * @author Bubby
  */
-public class HardwareTalonSrx implements SpeedController {
+public class HardwareTalonSrx implements TalonSrx {
 
-  private final CANTalon talon;
-  private final DoubleFunction<Double> speedValidator;
+  protected final CANTalon talon;
+  protected final DoubleFunction<Double> limiter;
 
   protected final Switch forwardLimitSwitch;
   protected final Switch reverseLimitSwitch;
+  protected final Faults instantaneousFaults;
+  protected final Faults stickyFaults;
 
-  /**
-   * Construct a new hardware representation of TalonSRX speed controller.
-   *
-   * @param talon          the physical CANTalon
-   * @param speedValidator the function which validates speed input
-   */
-  public HardwareTalonSrx(CANTalon talon, DoubleFunction<Double> speedValidator) {
+  public HardwareTalonSrx(CANTalon talon, DoubleFunction<Double> limiter) {
     this.talon = talon;
-    this.speedValidator = speedValidator;
+    this.limiter = limiter;
+
     this.forwardLimitSwitch = talon::isRevLimitSwitchClosed;
     this.reverseLimitSwitch = talon::isFwdLimitSwitchClosed;
+
+    this.instantaneousFaults = new Faults() {
+      @Override
+      public Switch forwardLimitSwitch() {
+        return () -> talon.getFaultForLim() != 0;
+      }
+
+      @Override
+      public Switch reverseLimitSwitch() {
+        return () -> talon.getFaultRevLim() != 0;
+      }
+
+      @Override
+      public Switch forwardSoftLimit() {
+        return () -> talon.getFaultForSoftLim() != 0;
+      }
+
+      @Override
+      public Switch reverseSoftLimit() {
+        return () -> talon.getFaultRevSoftLim() != 0;
+      }
+
+      @Override
+      public Switch hardwareFailure() {
+        return () -> talon.getFaultHardwareFailure() != 0;
+      }
+
+      @Override
+      public Switch overTemperature() {
+        return () -> talon.getFaultOverTemp() != 0;
+      }
+
+      @Override
+      public Switch underVoltage() {
+        return () -> talon.getFaultUnderVoltage() != 0;
+      }
+    };
+
+    this.stickyFaults = new Faults() {
+      @Override
+      public Switch forwardLimitSwitch() {
+        return () -> talon.getStickyFaultForLim() != 0;
+      }
+
+      @Override
+      public Switch reverseLimitSwitch() {
+        return () -> talon.getStickyFaultRevLim() != 0;
+      }
+
+      @Override
+      public Switch forwardSoftLimit() {
+        return () -> talon.getStickyFaultForSoftLim() != 0;
+      }
+
+      @Override
+      public Switch reverseSoftLimit() {
+        return () -> talon.getStickyFaultRevSoftLim() != 0;
+      }
+
+      @Override
+      public Switch hardwareFailure() {
+        return () -> talon.getFaultHardwareFailure() != 0; // no sticky version!
+      }
+
+      @Override
+      public Switch overTemperature() {
+        return () -> talon.getStickyFaultOverTemp() != 0;
+      }
+
+      @Override
+      public Switch underVoltage() {
+        return () -> talon.getStickyFaultUnderVoltage() != 0;
+      }
+    };
   }
 
-  /**
-   * Gets the current speed of the talon.
-   *
-   * @return current speed of talon
-   */
+  @Override
   public double getSpeed() {
     talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
     return talon.get();
   }
 
-  /**
-   * Sets the speed of controller.
-   *
-   * @param  speed the desired speed
-   * @return an instance of this talon
-   */
   @Override
-  public SpeedController setSpeed(double speed) {
+  public TalonSrx setSpeed(double speed) {
     talon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
-    talon.set(speedValidator.apply(speed));
+    talon.set(speed);
     return this;
   }
 
-  /**
-   * Gets the forward limit switch.
-   *
-   * @return the forward limit switch
-   */
+  @Override
   public Switch getForwardLimitSwitch() {
     return forwardLimitSwitch;
   }
 
-  /**
-   * Gets the reverse limit switch.
-   *
-   * @return the reverse limit switch
-   */
+  @Override
   public Switch getReverseLimitSwitch() {
     return reverseLimitSwitch;
   }
 
-  /**
-   * Sets the soft forward soft limit of the motor.
-   *
-   * @param forwardLimit forward soft limit
-   * @return an instance of this controller
-   */
-  public SpeedController setForwardSoftLimit(int forwardLimit) {
+  @Override
+  public int getDeviceId() {
+    return talon.getDeviceID();
+  }
+
+  @Override
+  public TalonSrx setFeedbackDevice(CANTalon.FeedbackDevice device) {
+    talon.setFeedbackDevice(device);
+    return this;
+  }
+
+  @Override
+  public TalonSrx reverseSensor(boolean flip) {
+    talon.reverseSensor(flip);
+    return this;
+  }
+
+  @Override
+  public TalonSrx setForwardSoftLimit(int forwardLimit) {
     talon.setForwardSoftLimit(forwardLimit);
     return this;
   }
 
-  /**
-   * Enables or disables the forward soft limit.
-   *
-   * @param enable enables or disables the forward soft limit
-   * @return an instance of this controller
-   */
-  public SpeedController enableForwardSoftLimit(boolean enable) {
+  @Override
+  public TalonSrx enableForwardSoftLimit(boolean enable) {
     talon.enableForwardSoftLimit(enable);
     return this;
   }
 
-  /**
-   * Sets the reverse soft limit.
-   *
-   * @param reverseLimit reverse soft limit
-   * @return an instance of this controller
-   */
-
-  public SpeedController setReverseSoftLimit(int reverseLimit) {
+  @Override
+  public TalonSrx setReverseSoftLimit(int reverseLimit) {
     talon.setReverseSoftLimit(reverseLimit);
     return this;
   }
 
-  /**
-   * Enables or disables the reverse soft limit.
-   *
-   * @param enable boolean to enable or disable the reverse soft limit
-   * @return an instance of this controller
-   */
-  public SpeedController enableReverseSoftLimit(boolean enable) {
+  @Override
+  public TalonSrx enableReverseSoftLimit(boolean enable) {
     talon.enableReverseSoftLimit(enable);
     return this;
   }
 
-  /**
-   * Enables or disables both limit switches.
-   *
-   * @param forward boolean to enable or disable the forward limit switch
-   * @param reverse boolean to enable or disable the reverse limit switch
-   * @return an instance of this controller
-   */
-  public SpeedController enableLimitSwitch(boolean forward, boolean reverse) {
+  @Override
+  public TalonSrx enableLimitSwitch(boolean forward, boolean reverse) {
     talon.enableLimitSwitch(forward, reverse);
     return this;
   }
 
-  /**
-   * Enables the brake mode of the Talon.
-   *
-   * @param brake boolean to enable or disable brake mode
-   * @return an instance of this controller
-   */
-  public SpeedController enableBrakeMode(boolean brake) {
-    talon.enableBrakeMode(brake);
+  @Override
+  public TalonSrx setForwardLimitSwitchNormallyOpen(boolean normallyOpen) {
+    talon.ConfigFwdLimitSwitchNormallyOpen(normallyOpen);
     return this;
   }
 
-  /**
-   * Returns safety status of Talon.
-   *
-   * @return whether the safety is enabled
-   */
+  @Override
+  public TalonSrx setReverseLimitSwitchNormallyOpen(boolean normallyOpen) {
+    talon.ConfigRevLimitSwitchNormallyOpen(normallyOpen);
+    return null;
+  }
+
+  @Override
+  public TalonSrx enableBrakeMode(boolean brake) {
+    talon.enableBrakeMode(brake);
+    return null;
+  }
+
+  @Override
+  public TalonSrx setVoltageRampRate(double rampRate) {
+    talon.setVoltageRampRate(rampRate);
+    return null;
+  }
+
+  @Override
+  public Faults faults() {
+    return instantaneousFaults;
+  }
+
+  @Override
+  public Faults stickyFaults() {
+    return stickyFaults;
+  }
+
+  @Override
+  public TalonSrx clearStickyFaults() {
+    talon.clearStickyFaults();
+    return this;
+  }
+
+  @Override
   public boolean isSafetyEnabled() {
     return talon.isSafetyEnabled();
   }
 
-  /**
-   * Set safety status of Talon.
-   *
-   * @param enabled New safety status
-   * @return an instance of this controller
-   */
-  public SpeedController setSafetyEnabled(boolean enabled) {
+  @Override
+  public TalonSrx setSafetyEnabled(boolean enabled) {
     talon.setSafetyEnabled(enabled);
     return this;
   }
 
-  /**
-   * Returns if Talon is in operation.
-   *
-   * @return whether the talon is alive
-   */
+  @Override
   public boolean isAlive() {
     return talon.isAlive();
   }
-
 }
