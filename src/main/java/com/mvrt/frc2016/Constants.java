@@ -11,6 +11,21 @@ public class Constants extends ConstantsBase {
 
   public static double kDriveDistancePerTick = 0;
 
+  public static double kDriveMaxVelocity = 0;
+  public static double kDriveMaxAcceleration = 0;
+
+  public static double kDriveDistanceKp = 0;
+  public static double kDriveDistanceKi = 0;
+  public static double kDriveDistanceKd = 0;
+  public static double kDriveDistanceKv = 0;
+  public static double kDriveDistanceKa = 0;
+
+  public static double kDriveOnTargetError = 1E-1;
+
+  public static double kDriveStraightKp = 0;
+  public static double kDriveStraightKi = 0;
+  public static double kDriveStraightKd = 0;
+
   public static int kEndEditableArea = 0;
 
   public static int kDriveLeftFrontId = 1;
