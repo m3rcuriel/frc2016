@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 /**
  * Talon speed controller with Faults and Limit Switches.
- * @author Bubby
+ * @author Ishan
  */
 public interface TalonSrx extends LimitedMotor{
 
@@ -39,6 +39,10 @@ public interface TalonSrx extends LimitedMotor{
   Faults stickyFaults();
 
   TalonSrx clearStickyFaults();
+
+  double pidGet();
+
+
 
   boolean isSafetyEnabled();
 

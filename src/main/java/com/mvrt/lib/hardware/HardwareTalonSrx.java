@@ -10,7 +10,7 @@ import java.util.function.DoubleFunction;
 /**
  * A hardware representation of a TalonSRX allowing the user to manipulate and retrieve the
  * speed.
- * @author Bubby
+ * @author Ishan
  */
 public class HardwareTalonSrx implements TalonSrx {
 
@@ -183,19 +183,19 @@ public class HardwareTalonSrx implements TalonSrx {
   @Override
   public TalonSrx setReverseLimitSwitchNormallyOpen(boolean normallyOpen) {
     talon.ConfigRevLimitSwitchNormallyOpen(normallyOpen);
-    return null;
+    return this;
   }
 
   @Override
   public TalonSrx enableBrakeMode(boolean brake) {
     talon.enableBrakeMode(brake);
-    return null;
+    return this;
   }
 
   @Override
   public TalonSrx setVoltageRampRate(double rampRate) {
     talon.setVoltageRampRate(rampRate);
-    return null;
+    return this;
   }
 
   @Override
@@ -212,6 +212,11 @@ public class HardwareTalonSrx implements TalonSrx {
   public TalonSrx clearStickyFaults() {
     talon.clearStickyFaults();
     return this;
+  }
+
+  @Override
+  public double pidGet() {
+    return talon.pidGet();
   }
 
   @Override

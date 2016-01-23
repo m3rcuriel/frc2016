@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 
 /**
  * A Motor that is bounded by two limit switches.
- * @author Bubby
+ * @author Ishan
  */
 public interface LimitedMotor extends Motor{
 
@@ -141,5 +141,4 @@ public interface LimitedMotor extends Motor{
 
     };
   }
-
 }
