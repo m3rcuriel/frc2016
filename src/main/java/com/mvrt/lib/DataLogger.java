@@ -173,10 +173,10 @@ public class DataLogger implements Runnable {
         } catch (IOException e) {
           e.printStackTrace();
         }
-
-        writer.writeInt((int) time);
-        suppliers.forEach((supplier -> writer.writeShort((short) supplier.getAsInt())));
       }
+
+      writer.writeInt((int) time);
+      suppliers.forEach((supplier -> writer.writeShort((short) supplier.getAsInt())));
     }
 
     public void close() {
