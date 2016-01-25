@@ -52,12 +52,14 @@ public class RobotBuilder {
     public final Motor rightFront = Hardware.Motors.talonSrxRaw(Constants.kDriveRightFrontId);
     public final Motor rightRear = Hardware.Motors.talonSrxRaw(Constants.kDriveRightRearId);
 
-    public final SimpleAccumulatedSensor leftFrontEncoder = Hardware.AccumulatedSensors
-        .quadEncoder(Constants.kDriveLeftFrontEncoderA, Constants.kDriveLeftFrontEncoderB,
-            Constants.kDriveDistancePerTick);
-    public final SimpleAccumulatedSensor rightFrontEncoder = Hardware.AccumulatedSensors
-        .quadEncoder(Constants.kDriveRightFrontEncoderA, Constants.kDriveRightFrontEncoderB,
-            Constants.kDriveDistancePerTick);
+    public final SimpleAccumulatedSensor leftFrontEncoder = SimpleAccumulatedSensor.invert(
+        Hardware.AccumulatedSensors
+            .quadEncoder(Constants.kDriveLeftFrontEncoderA, Constants.kDriveLeftFrontEncoderB,
+                Constants.kDriveDistancePerTick));
+    public final SimpleAccumulatedSensor rightFrontEncoder = SimpleAccumulatedSensor.invert(
+        Hardware.AccumulatedSensors
+            .quadEncoder(Constants.kDriveRightFrontEncoderA, Constants.kDriveRightFrontEncoderB,
+                Constants.kDriveDistancePerTick));
 
     public final AHRS navX = new AHRS(SPI.Port.kMXP);
   }
