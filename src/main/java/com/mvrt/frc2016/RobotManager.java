@@ -153,6 +153,5 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();
   }
 }
