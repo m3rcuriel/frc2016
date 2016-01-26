@@ -141,7 +141,7 @@ public class RobotManager extends IterativeRobot {
   public void disabledInit() {
     robotState = RobotState.DISABLED;
 
-    controllersConductor.start();
+    controllersConductor.stop();
 
     robot.driveSystem.setOpenLoop(DriveSignal.NEUTRAL);
 
