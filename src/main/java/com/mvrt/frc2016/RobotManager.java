@@ -2,14 +2,12 @@ package com.mvrt.frc2016;
 
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
-import com.mvrt.lib.DataLogger;
 import com.mvrt.lib.api.Conductor;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.util.Metronome;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -68,8 +66,6 @@ public class RobotManager extends IterativeRobot {
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
 
-    DataLogger dataLogger = new DataLogger();
-
     robotClock = Clock.fpgaOrSystem();
 
     controllersRunnables = new Runnables();
@@ -85,13 +81,6 @@ public class RobotManager extends IterativeRobot {
     ambientMetronome = Metronome.metronome(AMBIENT_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
     ambientConductor =
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
-
-    dataLogger.register("Throttle", () -> (short) (robot.operator.throttle.read() * 1000));
-    dataLogger.register("Wheel", () -> (short) (robot.operator.wheel.read() * 1000));
-
-    ambientRunnables.register(dataLogger);
-
-    dataLogger.startup();
 
     ambientConductor.start();
   }
