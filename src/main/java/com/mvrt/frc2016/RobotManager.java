@@ -31,6 +31,12 @@ public class RobotManager extends IterativeRobot {
   private static Runnables ambientRunnables;
   private static Metronome ambientMetronome;
 
+  public static final long SLOW_CONTROLLERS_MILLISECONDS = 10;
+
+  private static Conductor slowControllersConductor;
+  private static Runnables slowControllersRunnables;
+  private static Metronome slowControllersMetronome;
+
   public static final long CONTROLLERS_MILLISECONDS = 5;
 
   private static Conductor controllersConductor;
@@ -69,12 +75,19 @@ public class RobotManager extends IterativeRobot {
     robotClock = Clock.fpgaOrSystem();
 
     controllersRunnables = new Runnables();
-    controllersMetronome = Metronome.metronome(CONTROLLERS_MILLISECONDS, TimeUnit.MILLISECONDS,
-        robotClock);
-    controllersConductor = new Conductor("Controllers Conductor", controllersRunnables,
-        robotClock, controllersMetronome, null);
+    controllersMetronome =
+        Metronome.metronome(CONTROLLERS_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
+    controllersConductor = new Conductor("Controllers Conductor", controllersRunnables, robotClock,
+        controllersMetronome, null);
 
-    controllersRunnables.register(robot.driveSystem);
+    slowControllersRunnables = new Runnables();
+    slowControllersMetronome =
+        Metronome.metronome(SLOW_CONTROLLERS_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
+    slowControllersConductor =
+        new Conductor("Slow Controllers Conductor", slowControllersRunnables, robotClock,
+            slowControllersMetronome, null);
+
+    slowControllersRunnables.register(robot.driveSystem);
 
     ambientRunnables = new Runnables();
 
@@ -95,6 +108,7 @@ public class RobotManager extends IterativeRobot {
     robot.driveSystem.reset();
 
     controllersConductor.start();
+    slowControllersConductor.start();
   }
 
   /**
@@ -110,6 +124,9 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void teleopInit() {
     robotState = RobotState.TELEOP;
+
+    controllersConductor.start();
+    slowControllersConductor.start();
   }
 
   /**
@@ -131,6 +148,7 @@ public class RobotManager extends IterativeRobot {
     robotState = RobotState.DISABLED;
 
     controllersConductor.stop();
+    slowControllersConductor.stop();
 
     robot.driveSystem.setOpenLoop(DriveSignal.NEUTRAL);
 
