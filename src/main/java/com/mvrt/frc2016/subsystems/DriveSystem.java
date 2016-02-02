@@ -30,12 +30,12 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   /**
    * Construct the frc2016 DriveSystem based on relevant components.
    *
-   * @param name the name of the Subsystem
-   * @param leftMotor the left motor
-   * @param rightMotor the right motor
-   * @param leftEncoder the encoder for the left side of the robot
+   * @param name         the name of the Subsystem
+   * @param leftMotor    the left motor
+   * @param rightMotor   the right motor
+   * @param leftEncoder  the encoder for the left side of the robot
    * @param rightEncoder the encoder for the right side of the robot
-   * @param gyroscope the gyroscope representing the robot heading and angular velocity.
+   * @param gyroscope    the gyroscope representing the robot heading and angular velocity.
    */
   public DriveSystem(String name, Motor leftMotor, Motor rightMotor,
       SimpleAccumulatedSensor leftEncoder, SimpleAccumulatedSensor rightEncoder,
