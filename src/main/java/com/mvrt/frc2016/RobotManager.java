@@ -98,6 +98,10 @@ public class RobotManager extends IterativeRobot {
     ambientConductor.start();
   }
 
+  public static long getRobotTimeMillis() {
+    return robotClock.currentTimeInMillis();
+  }
+
   /**
    * Runs once when the robot enters autonomous.
    */
