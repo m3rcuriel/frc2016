@@ -1,5 +1,10 @@
 package com.mvrt.frc2016;
 
+import com.mvrt.frc2016.auto.Auto;
+import com.mvrt.frc2016.auto.AutoConductor;
+import com.mvrt.frc2016.auto.AutoSelector;
+import com.mvrt.frc2016.auto.modes.DoNothingAuto;
+import com.mvrt.frc2016.auto.modes.LowBarHighGoalAuto;
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
 import com.mvrt.lib.api.Conductor;
@@ -43,6 +48,8 @@ public class RobotManager extends IterativeRobot {
   private static Runnables controllersRunnables;
   private static Metronome controllersMetronome;
 
+  private static AutoConductor autoConductor = new AutoConductor();
+
   private static Clock robotClock;
 
   /**
@@ -71,6 +78,9 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
+
+    AutoSelector.getInstance().registerAutonomous(new DoNothingAuto(robot));
+    AutoSelector.getInstance().registerAutonomous(new LowBarHighGoalAuto(robot));
 
     robotClock = Clock.fpgaOrSystem();
 
@@ -111,6 +121,13 @@ public class RobotManager extends IterativeRobot {
 
     robot.driveSystem.reset();
 
+    Auto mode = AutoSelector.getInstance().getAuto();
+    autoConductor.setAuto(mode);
+
+    mode.setup();
+
+    autoConductor.start();
+
     controllersConductor.start();
     slowControllersConductor.start();
   }
@@ -128,6 +145,8 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void teleopInit() {
     robotState = RobotState.TELEOP;
+
+    autoConductor.stop();
 
     controllersConductor.start();
     slowControllersConductor.start();
@@ -150,6 +169,8 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void disabledInit() {
     robotState = RobotState.DISABLED;
+
+    autoConductor.stop();
 
     controllersConductor.stop();
     slowControllersConductor.stop();
