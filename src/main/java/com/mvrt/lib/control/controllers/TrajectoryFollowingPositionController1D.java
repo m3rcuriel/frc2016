@@ -1,5 +1,6 @@
 package com.mvrt.lib.control.controllers;
 
+import com.mvrt.frc2016.RobotManager;
 import com.mvrt.lib.control.Controller;
 import com.mvrt.lib.control.trajectory.TrajectoryFollower1D;
 
@@ -29,6 +30,8 @@ public class TrajectoryFollowingPositionController1D extends Controller {
     follower = new TrajectoryFollower1D();
     follower.initialize(kP, kI, kD, kV, kA, config);
     this.onTargetDelta = onTargetDelta;
+
+    RobotManager.register("Command", () -> (int) (1000 * retrieve()));
   }
 
   /**

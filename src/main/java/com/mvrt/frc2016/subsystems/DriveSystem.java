@@ -1,5 +1,6 @@
 package com.mvrt.frc2016.subsystems;
 
+import com.mvrt.frc2016.RobotManager;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -7,8 +8,10 @@ import com.mvrt.lib.components.Gyroscope;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.control.DriveController;
+import com.mvrt.lib.control.controllers.drive.DriveStraightController;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
+import com.mvrt.lib.control.misc.PidConstants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -76,6 +79,12 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   public void drive(DriveSignal signal) {
     this.leftMotor.setSpeed(signal.leftMotor);
     this.rightMotor.setSpeed(signal.rightMotor);
+  }
+
+  public void setDistanceSetpoint(double setpoint) {
+    controller = new DriveStraightController(this.driveState, setpoint, RobotManager
+        .SLOW_CONTROLLERS_MILLISECONDS, 5, 0, new PidConstants(1, 0, 0), 1 / 5, 0,
+        1, new PidConstants(0, 0, 0));
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.mvrt.frc2016;
 
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
+import com.mvrt.lib.DataLogger;
 import com.mvrt.lib.api.Conductor;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
@@ -9,7 +10,10 @@ import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.util.Metronome;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
+import javax.xml.crypto.Data;
 import java.util.concurrent.TimeUnit;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 
 /**
  * Base class for the robot. This is the class which will run when the code is initialized on the
@@ -45,6 +49,8 @@ public class RobotManager extends IterativeRobot {
 
   private static Clock robotClock;
 
+  private static DataLogger logger;
+
   /**
    * Get the robot subsystem representation.
    *
@@ -65,11 +71,17 @@ public class RobotManager extends IterativeRobot {
     return robotState;
   }
 
+  public static void register(String name, IntSupplier function) {
+    logger.register(name, function);
+  }
+
   /**
    * Runs when the robot is initially turned on.
    */
   @Override
   public void robotInit() {
+    logger = new DataLogger();
+
     robot = RobotBuilder.buildRobot();
 
     robotClock = Clock.fpgaOrSystem();
@@ -94,6 +106,12 @@ public class RobotManager extends IterativeRobot {
     ambientMetronome = Metronome.metronome(AMBIENT_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
     ambientConductor =
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
+
+    logger.startup();
+    logger.register("Left Velocity", () -> (int) (1000 * robot.driveSystem.getDriveState()
+        .getLeftVelocity()));
+    logger.register("Right Velocity", () -> (int) (1000 * robot.driveSystem.getDriveState()
+        .getRightVelocity()));
 
     ambientConductor.start();
   }
@@ -131,6 +149,8 @@ public class RobotManager extends IterativeRobot {
 
     controllersConductor.start();
     slowControllersConductor.start();
+
+    robot.driveSystem.setDistanceSetpoint(24);
   }
 
   /**

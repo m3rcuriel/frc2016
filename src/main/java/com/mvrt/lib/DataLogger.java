@@ -133,7 +133,7 @@ public class DataLogger implements Runnable {
 
         minSize = numWrites * suppliers.size();
 
-        writer = new MappedWriter("~/usb/data.log", minSize + 1024);
+        writer = new MappedWriter("~/data.log", minSize + 1024);
 
         initialize();
 
