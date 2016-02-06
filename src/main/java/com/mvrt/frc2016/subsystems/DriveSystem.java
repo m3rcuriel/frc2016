@@ -1,6 +1,7 @@
 package com.mvrt.frc2016.subsystems;
 
 import com.mvrt.frc2016.Constants;
+import com.mvrt.frc2016.RobotManager;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -98,8 +99,9 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
       throw new IllegalArgumentException("Velocity may not be negative");
     }
     double realVelocity = Math.min(Constants.kDriveMaxVelocity, Math.max(velocity, 0));
-    controller = new DriveStraightController(getStateToContinueFrom(), distance, realVelocity,
-        Constants.kDriveMaxVelocity, Constants.kDriveMaxAcceleration,
+    controller = new DriveStraightController(getStateToContinueFrom(), distance,
+        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D,
+        realVelocity, Constants.kDriveMaxAcceleration,
         new PidConstants(Constants.kDriveDistanceKp, Constants.kDriveDistanceKi,
             Constants.kDriveDistanceKd), Constants.kDriveDistanceKv, Constants.kDriveDistanceKa,
         Constants.kDriveOnTargetError,
