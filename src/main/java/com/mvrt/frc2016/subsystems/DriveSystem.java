@@ -1,5 +1,7 @@
 package com.mvrt.frc2016.subsystems;
 
+import com.mvrt.frc2016.Constants;
+import com.mvrt.frc2016.RobotManager;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -7,8 +9,10 @@ import com.mvrt.lib.components.Gyroscope;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.control.DriveController;
+import com.mvrt.lib.control.controllers.drive.DriveStraightController;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
+import com.mvrt.lib.control.misc.PidConstants;
 
 import java.util.concurrent.TimeUnit;
 
@@ -86,9 +90,28 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     drive(controller.update(getDriveState()));
   }
 
+  public void setDistanceSetpoint(double distance) {
+    setDistanceSetpoint(distance, Constants.kDriveMaxVelocity);
+  }
+
+  public void setDistanceSetpoint(double distance, double velocity) {
+    if (velocity < 0) {
+      throw new IllegalArgumentException("Velocity may not be negative");
+    }
+    double realVelocity = Math.min(Constants.kDriveMaxVelocity, Math.max(velocity, 0));
+    controller = new DriveStraightController(getStateToContinueFrom(), distance,
+        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D,
+        realVelocity, Constants.kDriveMaxAcceleration,
+        new PidConstants(Constants.kDriveDistanceKp, Constants.kDriveDistanceKi,
+            Constants.kDriveDistanceKd), Constants.kDriveDistanceKv, Constants.kDriveDistanceKa,
+        Constants.kDriveOnTargetError,
+        new PidConstants(Constants.kDriveStraightKp, Constants.kDriveStraightKi,
+            Constants.kDriveStraightKd));
+  }
+
   /**
    * Retrieve the current {@link DriveController}.
-   *
+   * <p>
    * May be null.
    *
    * @return the currently-used {@link DriveController}
@@ -106,5 +129,19 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     driveState.reset(leftEncoder.getPosition(), rightEncoder.getPosition(), leftEncoder.getRate(),
         rightEncoder.getRate(), gyroscope.getHeading(), gyroscope.getRate());
     return driveState;
+  }
+
+  private DriveState getStateToContinueFrom() {
+    if (controller.isOnTarget()) {
+      return controller.getCurrentState();
+    }
+    return getDriveState();
+  }
+
+  public boolean controllerOnTarget() {
+    if (controller != null) {
+      return controller.isOnTarget();
+    }
+    return false;
   }
 }
