@@ -1,10 +1,10 @@
 package com.mvrt.frc2016.web.handlers;
 
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * A sample servlet that simply shows "pong" upon loading.

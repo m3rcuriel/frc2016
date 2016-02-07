@@ -13,7 +13,7 @@ public class WebUtil implements Runnable {
   private boolean running = true;
 
   /**
-   * Constructor of the class
+   * Constructor of the class.
    * @param size - size for the ArrayBlockingQueue
    */
   public WebUtil(int size) {
@@ -43,7 +43,7 @@ public class WebUtil implements Runnable {
   }
 
   /**
-   * Run the current process at the head of the queue
+   * Run the current process at the head of the queue.
    */
   @Override
   public void run() {
