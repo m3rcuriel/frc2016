@@ -83,7 +83,7 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   }
 
   @Override
-  public void run(long time, TimeUnit unit) {
+  public void run(long time) {
     if (controller == null) {
       return;
     }
@@ -132,10 +132,13 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   }
 
   private DriveState getStateToContinueFrom() {
-    if (controller.isOnTarget()) {
+    if (controller == null) {
+      return getDriveState();
+    } else if (controller.isOnTarget()) {
       return controller.getCurrentState();
+    } else {
+      return getDriveState();
     }
-    return getDriveState();
   }
 
   public boolean controllerOnTarget() {

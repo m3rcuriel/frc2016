@@ -7,6 +7,7 @@ import com.mvrt.frc2016.auto.modes.DoNothingAuto;
 import com.mvrt.frc2016.auto.modes.LowBarHighGoalAuto;
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
+import com.mvrt.frc2016.web.WebServer;
 import com.mvrt.lib.api.Conductor;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
@@ -50,7 +51,7 @@ public class RobotManager extends IterativeRobot {
 
   private static AutoConductor autoConductor = new AutoConductor();
 
-  private static Clock robotClock;
+  public static Clock robotClock;
 
   /**
    * Get the robot subsystem representation.
@@ -79,10 +80,10 @@ public class RobotManager extends IterativeRobot {
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
 
+    robotClock = Clock.fpgaOrSystem();
+
     AutoSelector.getInstance().registerAutonomous(new DoNothingAuto(robot));
     AutoSelector.getInstance().registerAutonomous(new LowBarHighGoalAuto(robot));
-
-    robotClock = Clock.fpgaOrSystem();
 
     controllersRunnables = new Runnables();
     controllersMetronome =
@@ -106,6 +107,7 @@ public class RobotManager extends IterativeRobot {
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
 
     ambientConductor.start();
+    WebServer.startServer(); // start bullboard server
   }
 
   public static long getRobotTimeMillis() {

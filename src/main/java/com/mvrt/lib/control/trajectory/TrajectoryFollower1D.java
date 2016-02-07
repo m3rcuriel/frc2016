@@ -164,7 +164,7 @@ public class TrajectoryFollower1D {
       double xStart = currentVelocity * tStart + .5 * config.maxAcceleration * tStart * tStart;
 
       double tEnd = Math.abs(cruiseVelocity / config.maxAcceleration);
-      double xEnd = cruiseVelocity * tEnd - 0.5 * config.maxAcceleration * tStart * tStart;
+      double xEnd = cruiseVelocity * tEnd - 0.5 * config.maxAcceleration * tEnd * tEnd;
 
       double xCruise = Math.max(0, distanceToGo - xStart - xEnd);
       double tCruise = Math.abs(xCruise / cruiseVelocity);
