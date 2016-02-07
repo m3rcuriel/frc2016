@@ -7,6 +7,7 @@ import com.mvrt.frc2016.auto.modes.DoNothingAuto;
 import com.mvrt.frc2016.auto.modes.LowBarHighGoalAuto;
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
+import com.mvrt.frc2016.web.WebServer;
 import com.mvrt.lib.api.Conductor;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
@@ -78,6 +79,7 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
+    WebServer.startServer(); //start server
 
     AutoSelector.getInstance().registerAutonomous(new DoNothingAuto(robot));
     AutoSelector.getInstance().registerAutonomous(new LowBarHighGoalAuto(robot));
