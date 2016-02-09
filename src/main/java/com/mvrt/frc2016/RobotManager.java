@@ -50,7 +50,7 @@ public class RobotManager extends IterativeRobot {
 
   private static AutoConductor autoConductor = new AutoConductor();
 
-  private static Clock robotClock;
+  public static Clock robotClock;
 
   /**
    * Get the robot subsystem representation.
@@ -79,10 +79,10 @@ public class RobotManager extends IterativeRobot {
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
 
+    robotClock = Clock.fpgaOrSystem();
+
     AutoSelector.getInstance().registerAutonomous(new DoNothingAuto(robot));
     AutoSelector.getInstance().registerAutonomous(new LowBarHighGoalAuto(robot));
-
-    robotClock = Clock.fpgaOrSystem();
 
     controllersRunnables = new Runnables();
     controllersMetronome =

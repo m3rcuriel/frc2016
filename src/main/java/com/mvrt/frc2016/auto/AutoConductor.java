@@ -26,14 +26,11 @@ public class AutoConductor {
    */
   public void start() {
     if (thread == null) {
-      thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
+      thread = new Thread(() -> {
           if (auto != null) {
             auto.run();
           }
-        }
-      });
+        });
       thread.start();
     }
   }
