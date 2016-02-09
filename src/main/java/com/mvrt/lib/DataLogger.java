@@ -44,9 +44,9 @@ public class DataLogger implements Runnable {
   }
 
   @Override
-  public void run(long timeInMillis, TimeUnit unit) {
+  public void run(long timeInMillis) {
     if (running) {
-      logger.write(unit.convert(timeInMillis, TimeUnit.MILLISECONDS));
+      logger.write(timeInMillis);
     } else {
       logger.close();
     }
