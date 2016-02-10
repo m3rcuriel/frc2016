@@ -12,7 +12,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 public class StateStreamServlet extends WebSocketServlet {
 
   /**
-   * Setting up the servlet.
+   * Setting up the servlet. Pretty important for communicating with JS.
    *
    * @param factory necessary to work with Websocket servlets.
    */

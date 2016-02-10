@@ -79,7 +79,6 @@ public class RobotManager extends IterativeRobot {
   @Override
   public void robotInit() {
     robot = RobotBuilder.buildRobot();
-    WebServer.startServer(); //start server
 
     robotClock = Clock.fpgaOrSystem();
 
@@ -108,6 +107,7 @@ public class RobotManager extends IterativeRobot {
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
 
     ambientConductor.start();
+    WebServer.startServer(); // start bullboard server
   }
 
   public static long getRobotTimeMillis() {

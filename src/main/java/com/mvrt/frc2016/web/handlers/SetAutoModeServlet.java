@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Set the autonomous mode using Bullboard.
+ * Set the autonomous mode using Bullboard. Defines the mode in the URL itself.
  *
  * @author Siddharth Gollapudi
  */

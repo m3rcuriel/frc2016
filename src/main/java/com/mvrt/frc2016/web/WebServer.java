@@ -36,15 +36,9 @@ public class WebServer {
     context.setContextPath("/");
     server.setHandler(context);
 
-    // Add websocket servlet
+    // websocket servlet
     ServletHolder wsHolder = new ServletHolder("echo", new StateStreamServlet());
     context.addServlet(wsHolder, "/state");
-
-    //ServletHolder statesHolder = new ServletHolder("states", new GetAllStatesServlet());
-    //context.addServlet(statesHolder, "/all_states");
-
-    //ServletHolder keysHolder = new ServletHolder("keys", new GetKeysServlet());
-    //context.addServlet(keysHolder, "/keys");
 
     ServletHolder constantsHolder = new ServletHolder("constants", new ConstantsServlet());
     context.addServlet(constantsHolder, "/constants");
@@ -62,7 +56,6 @@ public class WebServer {
     ServletHolder pingHolder = new ServletHolder("ping", new PingServlet());
     context.addServlet(pingHolder, "/ping");
 
-    //noinspection ConstantConditions
     String appDir = WebServer.class.getClassLoader().getResource("app/").toExternalForm();
     ServletHolder holderPwd = new ServletHolder("default", new DefaultServlet());
     holderPwd.setInitParameter("resourceBase", appDir);
