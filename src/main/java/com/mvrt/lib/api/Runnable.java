@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit;
  */
 public interface Runnable {
 
-  default void run(long timeInMillis) {
-    run(timeInMillis, TimeUnit.MILLISECONDS);
-  }
+  void run(long timeInMillis);
 
-  void run(long time, TimeUnit unit);
+  default void run(long time, TimeUnit unit) {
+    run(unit.convert(time, TimeUnit.MILLISECONDS));
+  }
 }

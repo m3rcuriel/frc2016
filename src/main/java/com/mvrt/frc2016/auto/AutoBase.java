@@ -25,7 +25,7 @@ public abstract class AutoBase {
 
   protected Metronome metronome = Metronome
       .metronome((long) (updateRate * 1000), TimeUnit.MILLISECONDS,
-          RobotManager::getRobotTimeMillis);
+          RobotManager.robotClock);
 
   /**
    * Method called periodically to execute the autonomous mode.
