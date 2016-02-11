@@ -26,6 +26,17 @@ public class Constants extends ConstantsBase {
   public static double kDriveStraightKi = 0;
   public static double kDriveStraightKd = 0;
 
+  public static double kFlywheelKp = 0;
+  public static double kFlywheelKi = 0;
+  public static double kFlywheelKd = 0;
+
+  public static int kFlywheelAcceptableBitwiseError = 8; // default to 8 bit precision
+
+  public static double kFlywheelDistancePerTick = 0;
+
+  public static double kPresetBatterSpeed = 200;
+  public static double kPresetIntakeSpeed = -200;
+
   public static int kEndEditableArea = 0;
 
   public static int kDriveLeftFrontId = 1;
@@ -39,6 +50,15 @@ public class Constants extends ConstantsBase {
   public static int kDriveLeftFrontEncoderB = 1;
   public static int kDriveRightFrontEncoderA = 2;
   public static int kDriveRightFrontEncoderB = 3;
+
+  public static int kLeftFlywheelMotor = 5;
+  public static int kLeftFlywheelEncoderA = 4;
+  public static int kLeftFlywheelEncoderB = 5;
+
+  public static int kRightFlywheelMotor = 6;
+  public static int kRightFlywheelEncoderA = 6;
+  public static int kRightFlywheelEncoderB = 7;
+
 
   /**
    * Allows the programmer to customize the location of the constants save file.

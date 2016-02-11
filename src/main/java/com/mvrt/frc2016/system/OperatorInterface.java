@@ -10,10 +10,23 @@ public class OperatorInterface {
 
   public final Switch quickturn;
 
+  public final Switch intake;
+
+  public final Switch shooterOff;
+
+  // Presets
+  public final Switch batterPresetShot;
+
   public OperatorInterface(FlightStick driveStick) {
     throttle = driveStick.getPitch();
     wheel = driveStick.getRoll();
 
     quickturn = driveStick.getButton(5);
+
+    intake = driveStick.getButton(11);
+
+    shooterOff = driveStick.getButton(12);
+
+    batterPresetShot = driveStick.getButton(7);
   }
 }
