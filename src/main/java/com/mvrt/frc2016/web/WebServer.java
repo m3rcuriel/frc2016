@@ -1,11 +1,12 @@
 package com.mvrt.frc2016.web;
 
+import com.mvrt.frc2016.RobotManager;
 import com.mvrt.frc2016.web.handlers.ConstantsServlet;
 import com.mvrt.frc2016.web.handlers.GetAutoModesServlet;
 import com.mvrt.frc2016.web.handlers.GetCurrentAutoModeServlet;
 import com.mvrt.frc2016.web.handlers.PingServlet;
 import com.mvrt.frc2016.web.handlers.SetAutoModeServlet;
-import com.mvrt.lib.util.WebUtil;
+import com.mvrt.lib.api.Runnable;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -15,13 +16,13 @@ import java.util.ArrayList;
 
 /**
  * The Webserver that runs Bullboard.
+ *
  * @author Siddharth Gollapudi
  */
 public class WebServer {
 
   private static Server server;
-  private static ArrayList<StateStreamSocket> updateStreams = new ArrayList<StateStreamSocket>();
-  private static WebUtil streamUpdate = new WebUtil(200);
+  private static ArrayList<StateStreamSocket> updateStreams = new ArrayList<>();
 
   /**
    * Method to start the server and respective servlets.
@@ -56,30 +57,33 @@ public class WebServer {
     ServletHolder pingHolder = new ServletHolder("ping", new PingServlet());
     context.addServlet(pingHolder, "/ping");
 
-    String appDir = WebServer.class.getClassLoader().getResource("app/").toExternalForm();
-    ServletHolder holderPwd = new ServletHolder("default", new DefaultServlet());
-    holderPwd.setInitParameter("resourceBase", appDir);
-    holderPwd.setInitParameter("dirAllowed", "true");
-    context.addServlet(holderPwd, "/");
+    try {
+      String appDir = WebServer.class.getClassLoader().getResource("app/").toExternalForm();
 
-    Thread serverThread = new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          server.start();
-          server.join();
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-      }
-    });
-    serverThread.setPriority(Thread.MIN_PRIORITY);
-    serverThread.start();
-    streamUpdate.start();
+      ServletHolder holderPwd = new ServletHolder("default", new DefaultServlet());
+      holderPwd.setInitParameter("resourceBase", appDir);
+      holderPwd.setInitParameter("dirAllowed", "true");
+      context.addServlet(holderPwd, "/");
+
+      Thread serverThread = new Thread(() -> {
+          try {
+            server.start();
+            server.join();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        });
+      serverThread.setPriority(Thread.MIN_PRIORITY);
+      serverThread.start();
+
+    } catch (NullPointerException e) {
+      System.err.println("Could not load resources folder. Cancelling Bullboard instantiation");
+    }
   }
 
   /**
    * Add the statestreamsocket to link WebSocket.
+   *
    * @param s StateStreamSocket in question
    */
   public static void registerStateStreamSocket(StateStreamSocket s) {
@@ -88,6 +92,7 @@ public class WebServer {
 
   /**
    * Remove the statestreamsocket.
+   *
    * @param s the StatestreamSocket in question
    */
   public static void unregisterStateStreamSocket(StateStreamSocket s) {
@@ -97,18 +102,22 @@ public class WebServer {
   /**
    * Update the thread upon which the stream is running on.
    */
-  public static Runnable updateRunner = new Runnable() {
-    public void run() {
-      for (int i = 0; i < updateStreams.size(); ++i) {
-        StateStreamSocket s = updateStreams.get(i);
-        if (s != null && s.isConnected() && !s.canBeUpdated()) {
-          System.out.println("THis is here to pass the gradlew check");
-        } else if ((s == null || !s.isConnected() || !s.update()) && i < updateStreams.size()) {
-          updateStreams.remove(i);
-        }
+  public static Runnable updateRunner = (millis) -> updateRunnerBody();
+
+  private static void updateRunnerBody() {
+    for (int i = 0; i < updateStreams.size(); ++i) {
+      StateStreamSocket s = updateStreams.get(i);
+      if (s != null && s.isConnected() && !s.canBeUpdated()) {
+        System.out.println("BULLBOARD: Stream " + s.getClass() + " is in normal operation");
+      } else if ((s == null || !s.isConnected() || !s.update()) && i < updateStreams.size()) {
+        updateStreams.remove(i);
       }
     }
-  };
+  }
+
+  public static void addTask(Runnable runnable) {
+    RobotManager.ambientRegister(runnable);
+  }
 
   /**
    * Refresh the statestreams.
@@ -123,7 +132,7 @@ public class WebServer {
       }
     }
     if (runUpdate) {
-      streamUpdate.addTask(updateRunner);
+      RobotManager.ambientRegister(updateRunner);
     }
   }
 }

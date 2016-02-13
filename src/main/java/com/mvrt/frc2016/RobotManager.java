@@ -9,6 +9,7 @@ import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
 import com.mvrt.frc2016.web.WebServer;
 import com.mvrt.lib.api.Conductor;
+import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
 import com.mvrt.lib.control.misc.DriveSignal;
@@ -71,6 +72,10 @@ public class RobotManager extends IterativeRobot {
    */
   public static RobotState getState() {
     return robotState;
+  }
+
+  public static void ambientRegister(Runnable runnable) {
+    ambientRunnables.register(runnable);
   }
 
   /**
