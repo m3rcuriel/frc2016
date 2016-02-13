@@ -16,12 +16,13 @@ import java.util.ArrayList;
 
 /**
  * The Webserver that runs Bullboard.
+ *
  * @author Siddharth Gollapudi
  */
 public class WebServer {
 
   private static Server server;
-  private static ArrayList<StateStreamSocket> updateStreams = new ArrayList<StateStreamSocket>();
+  private static ArrayList<StateStreamSocket> updateStreams = new ArrayList<>();
 
   /**
    * Method to start the server and respective servlets.
@@ -71,7 +72,7 @@ public class WebServer {
           } catch (Exception e) {
             e.printStackTrace();
           }
-      });
+        });
       serverThread.setPriority(Thread.MIN_PRIORITY);
       serverThread.start();
 
@@ -82,6 +83,7 @@ public class WebServer {
 
   /**
    * Add the statestreamsocket to link WebSocket.
+   *
    * @param s StateStreamSocket in question
    */
   public static void registerStateStreamSocket(StateStreamSocket s) {
@@ -90,6 +92,7 @@ public class WebServer {
 
   /**
    * Remove the statestreamsocket.
+   *
    * @param s the StatestreamSocket in question
    */
   public static void unregisterStateStreamSocket(StateStreamSocket s) {
@@ -99,16 +102,18 @@ public class WebServer {
   /**
    * Update the thread upon which the stream is running on.
    */
-  public static Runnable updateRunner = (millis) -> {
-      for (int i = 0; i < updateStreams.size(); ++i) {
-        StateStreamSocket s = updateStreams.get(i);
-        if (s != null && s.isConnected() && !s.canBeUpdated()) {
-          System.out.println("BULLBOARD: Stream " + s.getClass() + " is in normal operation");
-        } else if ((s == null || !s.isConnected() || !s.update()) && i < updateStreams.size()) {
-          updateStreams.remove(i);
-        }
+  public static Runnable updateRunner = (millis) -> updateRunnerBody();
+
+  private static void updateRunnerBody() {
+    for (int i = 0; i < updateStreams.size(); ++i) {
+      StateStreamSocket s = updateStreams.get(i);
+      if (s != null && s.isConnected() && !s.canBeUpdated()) {
+        System.out.println("BULLBOARD: Stream " + s.getClass() + " is in normal operation");
+      } else if ((s == null || !s.isConnected() || !s.update()) && i < updateStreams.size()) {
+        updateStreams.remove(i);
       }
-  };
+    }
+  }
 
   public static void addTask(Runnable runnable) {
     RobotManager.ambientRegister(runnable);
