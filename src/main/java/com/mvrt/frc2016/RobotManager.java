@@ -186,9 +186,8 @@ public class RobotManager extends IterativeRobot {
 
     if (quickturn) {
       double turnSign = Math.signum(wheel);
-      wheel = Math.abs(turnSign * (wheel * wheel));
+      wheel = turnSign * (wheel * wheel);
     }
-
     robot.drive.austinDrive(throttle, wheel, quickturn);
   }
 

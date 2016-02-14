@@ -28,8 +28,8 @@ public class RobotBuilder {
     Components components = new Components();
 
     DriveSystem driveSystem = new DriveSystem("Drive System",
-        Motor.invert(Motor.compose(components.leftFront, components.leftRear)),
-        Motor.compose(components.rightFront, components.rightRear), components.leftFrontEncoder,
+        Motor.compose(components.leftFront, components.leftRear),
+        Motor.invert(Motor.compose(components.rightFront, components.rightRear)), components.leftFrontEncoder,
         components.rightFrontEncoder, Hardware.ahrsAsGyroscope(components.navX));
 
     DriveInterpreter drive = new DriveInterpreter(driveSystem);
