@@ -1,9 +1,11 @@
-package com.mvrt.frc2016.subsystems.Controllers;
+package com.mvrt.frc2016.subsystems.controllers;
 
 import com.mvrt.lib.control.Controller;
 
 /**
- * Created by siddharth on 2/13/16.
+ * Abstract implementation of the constant speed controller.
+ *
+ * @author Siddharth Gollapudi
  */
 public abstract class ConstantSpeedController extends Controller {
 

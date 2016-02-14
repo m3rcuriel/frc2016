@@ -2,8 +2,8 @@ package com.mvrt.frc2016.subsystems;
 
 import com.mvrt.frc2016.Constants;
 import com.mvrt.frc2016.RobotManager;
-import com.mvrt.frc2016.subsystems.Controllers.ConstantPidController;
-import com.mvrt.frc2016.subsystems.Controllers.ConstantSpeedController;
+import com.mvrt.frc2016.subsystems.controllers.ConstantPidController;
+import com.mvrt.frc2016.subsystems.controllers.ConstantSpeedController;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -94,8 +94,8 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   public void setConstantSpeed(double power) {
     if (!(cscController instanceof ConstantPidController)) {
       cscController = new ConstantPidController(
-          new PidConstants(Constants.kConstantDriveKp, Constants.kConstanttDriveKi, Constants.kConstantDriveKd),
-          Constants.kConstantDriveAcceptableBitwiseError);
+          new PidConstants(Constants.kConstantDriveKp, Constants.kConstanttDriveKi,
+              Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
       cscController.setGoal(power);
     } else {
       cscController.setGoal(power);

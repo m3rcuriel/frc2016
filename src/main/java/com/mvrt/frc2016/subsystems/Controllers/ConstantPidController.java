@@ -1,11 +1,11 @@
-package com.mvrt.frc2016.subsystems.Controllers;
-
+package com.mvrt.frc2016.subsystems.controllers;
 
 import com.mvrt.lib.control.misc.PidConstants;
 import com.mvrt.lib.control.misc.SynchronousPid;
 import com.mvrt.lib.util.Values;
+
 /**
- *
+ * Controller for Driving at a constant speed using PID.
  *
  * @author Siddharth Gollapudi on 2/13/16.
  */
