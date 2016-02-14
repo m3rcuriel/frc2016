@@ -2,6 +2,7 @@ package com.mvrt.frc2016.auto;
 
 import com.mvrt.frc2016.RobotManager;
 import com.mvrt.frc2016.auto.actions.Action;
+import com.mvrt.lib.components.Clock;
 import com.mvrt.lib.util.Metronome;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +26,7 @@ public abstract class AutoBase {
 
   protected Metronome metronome = Metronome
       .metronome((long) (updateRate * 1000), TimeUnit.MILLISECONDS,
-          RobotManager.robotClock);
+          Clock.fpga());
 
   /**
    * Method called periodically to execute the autonomous mode.
