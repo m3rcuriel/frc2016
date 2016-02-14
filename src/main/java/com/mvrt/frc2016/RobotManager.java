@@ -32,19 +32,19 @@ public class RobotManager extends IterativeRobot {
 
   private static Robot robot;
 
-  public static final long AMBIENT_MILLISECONDS = 30;
+  public static final long AMBIENT_MILLISECONDS = 40;
 
   private static Conductor ambientConductor;
   private static Runnables ambientRunnables;
   private static Metronome ambientMetronome;
 
-  public static final long SLOW_CONTROLLERS_MILLISECONDS = 10;
+  public static final long SLOW_CONTROLLERS_MILLISECONDS = 20;
 
   private static Conductor slowControllersConductor;
   private static Runnables slowControllersRunnables;
   private static Metronome slowControllersMetronome;
 
-  public static final long CONTROLLERS_MILLISECONDS = 5;
+  public static final long CONTROLLERS_MILLISECONDS = 10;
 
   private static Conductor controllersConductor;
   private static Runnables controllersRunnables;
