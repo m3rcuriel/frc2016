@@ -3,7 +3,6 @@ package com.mvrt.frc2016.subsystems;
 import com.mvrt.frc2016.Constants;
 import com.mvrt.frc2016.RobotManager;
 import com.mvrt.frc2016.subsystems.controllers.ConstantPidController;
-import com.mvrt.frc2016.subsystems.controllers.ConstantSpeedController;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -28,7 +27,7 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   private final Gyroscope gyroscope;
 
   private DriveController controller = null;
-  private ConstantSpeedController cscController = null;
+  private ConstantPidController cscController = null;
 
   private DriveState driveState = new DriveState(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
@@ -91,15 +90,11 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     drive(controller.update(getDriveState()));
   }
 
-  public void setConstantSpeed(double power) {
-    if (!(cscController instanceof ConstantPidController)) {
-      cscController = new ConstantPidController(
-          new PidConstants(Constants.kConstantDriveKp, Constants.kConstanttDriveKi,
-              Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
-      cscController.setGoal(power);
-    } else {
-      cscController.setGoal(power);
-    }
+  public void setConstantSpeed(double speed) {
+    cscController = new ConstantPidController(
+        new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi,
+            Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
+    cscController.setGoal(speed);
   }
 
   public void setDistanceSetpoint(double distance) {
@@ -112,8 +107,8 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     }
     double realVelocity = Math.min(Constants.kDriveMaxVelocity, Math.max(velocity, 0));
     controller = new DriveStraightController(getStateToContinueFrom(), distance,
-        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D,
-        realVelocity, Constants.kDriveMaxAcceleration,
+        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D, realVelocity,
+        Constants.kDriveMaxAcceleration,
         new PidConstants(Constants.kDriveDistanceKp, Constants.kDriveDistanceKi,
             Constants.kDriveDistanceKd), Constants.kDriveDistanceKv, Constants.kDriveDistanceKa,
         Constants.kDriveOnTargetError,

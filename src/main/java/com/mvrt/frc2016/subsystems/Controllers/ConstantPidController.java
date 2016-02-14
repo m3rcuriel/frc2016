@@ -1,5 +1,10 @@
 package com.mvrt.frc2016.subsystems.controllers;
 
+import com.mvrt.frc2016.Constants;
+import com.mvrt.lib.components.Motor;
+import com.mvrt.lib.control.DriveController;
+import com.mvrt.lib.control.misc.DriveSignal;
+import com.mvrt.lib.control.misc.DriveState;
 import com.mvrt.lib.control.misc.PidConstants;
 import com.mvrt.lib.control.misc.SynchronousPid;
 import com.mvrt.lib.util.Values;
@@ -9,13 +14,19 @@ import com.mvrt.lib.util.Values;
  *
  * @author Siddharth Gollapudi on 2/13/16.
  */
-public class ConstantPidController extends ConstantSpeedController {
+public class ConstantPidController extends DriveController {
 
   private final int acceptableBitwiseError;
 
-  private SynchronousPid pid;
+  protected double goal;
+  protected double lSpeed;
+  protected double rSpeed;
 
-  public boolean target = false;
+  private SynchronousPid pid;
+  private DriveState currentState = null;
+
+  public boolean targetRight = false;
+  public boolean targetLeft = false;
 
   public ConstantPidController(PidConstants constants, int acceptableBitwiseError) {
     this.acceptableBitwiseError = acceptableBitwiseError;
@@ -23,27 +34,39 @@ public class ConstantPidController extends ConstantSpeedController {
     pid.setOutputRange(-1.0, 1.0);
   }
 
-  @Override
   public void setGoal(double velocity) {
     this.goal = velocity;
-    pid.setSetpoint(velocity);
+    pid.setSetpoint(goal);
   }
 
   @Override
-  public void update(double velocity) {
-    powerOutput = pid.calculate(velocity);
+  public DriveSignal update(DriveState currentState) {
+    lSpeed = pid.calculate(currentState.getLeftVelocity());
+    rSpeed = pid.calculate(currentState.getRightVelocity());
 
-    target = Values.fuzzyCompare(velocity, goal, acceptableBitwiseError) == 0;
+    targetRight = Values.fuzzyCompare(rSpeed, goal, acceptableBitwiseError) == 0;
+    targetLeft = Values.fuzzyCompare(lSpeed, goal, acceptableBitwiseError) == 0;
+
+    return new DriveSignal((double) Constants.kDriveLeftFrontId,
+        (double) Constants.kDriveRightFrontId);
+  }
+
+  @Override
+  public DriveState getCurrentState() {
+    return new DriveState(currentState.getLeftDistance(), currentState.getRightDistance(),
+        currentState.getLeftVelocity(), currentState.getRightVelocity(), currentState.getHeading(),
+        currentState.getHeadingVelocity());
   }
 
   @Override
   public void reset() {
-    powerOutput = 0;
-    goal = 1;
+    lSpeed = 0;
+    rSpeed = 0;
+    goal = 0;
   }
 
   @Override
   public boolean isOnTarget() {
-    return target;
+    return targetLeft && targetRight;
   }
 }

@@ -40,7 +40,7 @@ public class Constants extends ConstantsBase {
   public static double kPresetIntakeSpeed = -200;
 
   public static double kConstantDriveKp = 0;
-  public static double kConstanttDriveKi = 0;
+  public static double kConstantDriveKi = 0;
   public static double kConstantDriveKd = 0;
 
   public static int kEndEditableArea = 0;
