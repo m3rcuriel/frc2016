@@ -10,6 +10,8 @@ public class OperatorInterface {
 
   public final Switch quickturn;
 
+  public final Switch reverse;
+
   public final Switch intake;
 
   public final Switch shooterOff;
@@ -21,7 +23,9 @@ public class OperatorInterface {
     throttle = driveStick.getPitch();
     wheel = driveStick.getRoll();
 
-    quickturn = driveStick.getButton(5);
+    quickturn = driveStick.getTrigger();
+
+    reverse = driveStick.getThumb();
 
     intake = driveStick.getButton(11);
 

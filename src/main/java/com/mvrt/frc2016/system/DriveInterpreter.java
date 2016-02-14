@@ -21,6 +21,16 @@ public class DriveInterpreter {
 
   private DoubleFunction<Double> limiter = Values.limiter(-1.0, 1.0);
 
+  private boolean flip = false;
+
+  public boolean getFlip() {
+    return flip;
+  }
+
+  public void flip(boolean toFlip) {
+    this.flip = toFlip;
+  }
+
   /**
    * Construct a new DriveInterpreter wrapper around an {@link DriveTrain}.
    *
@@ -34,7 +44,7 @@ public class DriveInterpreter {
    * Stop the {@link DriveTrain}.
    */
   public void stop() {
-    this.driveTrain.drive(DriveSignal.NEUTRAL);
+    drive(DriveSignal.NEUTRAL);
   }
 
   /**
@@ -86,10 +96,10 @@ public class DriveInterpreter {
       }
     }
 
-    this.driveTrain.drive(new DriveSignal(leftMotorSpeed, rightMotorSpeed));
+    drive(new DriveSignal(leftMotorSpeed, rightMotorSpeed));
   }
 
-  private double squareInputs(double speed) {
+  public double squareInputs(double speed) {
     return Math.signum(speed) * speed * speed;
   }
 
@@ -110,7 +120,7 @@ public class DriveInterpreter {
       rightSpeed = squareInputs(rightSpeed);
     }
 
-    this.driveTrain.drive(new DriveSignal(leftSpeed, rightSpeed));
+    drive(new DriveSignal(leftSpeed, rightSpeed));
   }
 
   /**
@@ -122,7 +132,7 @@ public class DriveInterpreter {
   public void tank(double leftSpeed, double rightSpeed) {
     leftSpeed = limiter.apply(leftSpeed);
     rightSpeed = limiter.apply(rightSpeed);
-    this.driveTrain.drive(new DriveSignal(leftSpeed, rightSpeed));
+    drive(new DriveSignal(leftSpeed, rightSpeed));
   }
 
   private double oldWheel = 0.0;
@@ -221,7 +231,15 @@ public class DriveInterpreter {
       rightPwm = -1.0;
     }
 
-    driveTrain.drive(new DriveSignal(leftPwm, rightPwm));
+    drive(new DriveSignal(leftPwm, rightPwm));
+  }
+
+  private void drive(DriveSignal signal) {
+    if (flip) {
+      driveTrain.drive(signal.invert());
+    } else {
+      driveTrain.drive(signal);
+    }
   }
 
   private static double dampen(double wheel, double wheelNonLinearity) {
