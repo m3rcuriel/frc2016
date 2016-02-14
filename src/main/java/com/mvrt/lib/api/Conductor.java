@@ -91,7 +91,7 @@ public final class Conductor {
           try {
             runnable.run(timeInMillis);
           } catch (Throwable e) {
-            System.err.println("Runnable failed");
+            System.err.println("Runnable failed: " + runnable.toString());
           }
           lastTimeInMillis = timeInMillis;
         }
