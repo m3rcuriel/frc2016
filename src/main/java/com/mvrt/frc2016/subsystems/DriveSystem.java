@@ -14,7 +14,6 @@ import com.mvrt.lib.control.controllers.drive.DriveStraightController;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
 import com.mvrt.lib.control.misc.PidConstants;
-import com.sun.tools.internal.jxc.ap.Const;
 
 import java.util.concurrent.TimeUnit;
 
