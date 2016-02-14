@@ -7,7 +7,9 @@ import com.mvrt.frc2016.auto.modes.DoNothingAuto;
 import com.mvrt.frc2016.auto.modes.LowBarHighGoalAuto;
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
+import com.mvrt.frc2016.web.WebServer;
 import com.mvrt.lib.api.Conductor;
+import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
 import com.mvrt.lib.control.misc.DriveSignal;
@@ -72,6 +74,10 @@ public class RobotManager extends IterativeRobot {
     return robotState;
   }
 
+  public static void ambientRegister(Runnable runnable) {
+    ambientRunnables.register(runnable);
+  }
+
   /**
    * Runs when the robot is initially turned on.
    */
@@ -90,6 +96,8 @@ public class RobotManager extends IterativeRobot {
     controllersConductor = new Conductor("Controllers Conductor", controllersRunnables, robotClock,
         controllersMetronome, null);
 
+    controllersRunnables.register(robot.shiitake);
+
     slowControllersRunnables = new Runnables();
     slowControllersMetronome =
         Metronome.metronome(SLOW_CONTROLLERS_MILLISECONDS, TimeUnit.MILLISECONDS, robotClock);
@@ -106,6 +114,7 @@ public class RobotManager extends IterativeRobot {
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
 
     ambientConductor.start();
+    WebServer.startServer(); // start bullboard server
   }
 
   public static long getRobotTimeMillis() {
@@ -157,10 +166,30 @@ public class RobotManager extends IterativeRobot {
    */
   @Override
   public void teleopPeriodic() {
+    if (robot.operator.shooterOff.isTriggered()) {
+      robot.shiitake.brakeFlywheels();
+    }
+
+    if (robot.operator.batterPresetShot.isTriggered()) {
+      robot.shiitake.setFlywheelsRpm(Constants.kPresetBatterSpeed);
+    }
+
+    if (robot.operator.intake.isTriggered()) {
+      robot.shiitake.setFlywheelsRpm(Constants.kPresetIntakeSpeed);
+    }
+
+
     double throttle = (robot.operator.throttle.read());
     double wheel = (robot.operator.wheel.read());
 
-    robot.drive.austinDrive(throttle, wheel, robot.operator.quickturn.isTriggered());
+    boolean quickturn = robot.operator.quickturn.isTriggered();
+
+    if (quickturn) {
+      double turnSign = Math.signum(wheel);
+      wheel = Math.abs(turnSign * (wheel * wheel));
+    }
+
+    robot.drive.austinDrive(throttle, wheel, quickturn);
   }
 
   /**

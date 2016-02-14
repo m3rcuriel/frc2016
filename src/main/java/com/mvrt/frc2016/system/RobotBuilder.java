@@ -3,6 +3,9 @@ package com.mvrt.frc2016.system;
 import com.kauailabs.navx.frc.AHRS;
 import com.mvrt.frc2016.Constants;
 import com.mvrt.frc2016.subsystems.DriveSystem;
+import com.mvrt.frc2016.subsystems.Flywheel;
+import com.mvrt.frc2016.subsystems.Shiitake;
+import com.mvrt.lib.api.ConstantsBase;
 import com.mvrt.lib.components.Motor;
 import com.mvrt.lib.components.SimpleAccumulatedSensor;
 import com.mvrt.lib.hardware.Hardware;
@@ -34,7 +37,14 @@ public class RobotBuilder {
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    return new Robot(drive, operator, components.navX, components, driveSystem);
+    Flywheel leftFlywheel = new Flywheel("Left Flywheel", components.leftFlywheelMotor,
+        components.leftFlywheelEncoder);
+    Flywheel rightFlywheel = new Flywheel("Right Flywheel", components.rightFlywheelMotor,
+        components.rightFlywheelEncoder);
+
+    Shiitake shiitake = new Shiitake("Shiitake", leftFlywheel, rightFlywheel);
+
+    return new Robot(drive, operator, components.navX, components, driveSystem, shiitake);
   }
 
   /**
@@ -61,5 +71,17 @@ public class RobotBuilder {
                 Constants.kDriveDistancePerTick));
 
     public final AHRS navX = new AHRS(SPI.Port.kMXP);
+
+    public final Motor leftFlywheelMotor = Hardware.Motors.talonSrxRaw(Constants
+        .kLeftFlywheelMotor);
+    public final SimpleAccumulatedSensor leftFlywheelEncoder =
+        Hardware.AccumulatedSensors.quadEncoder(Constants.kLeftFlywheelEncoderA,
+            Constants.kLeftFlywheelEncoderB, Constants.kFlywheelDistancePerTick);
+    public final Motor rightFlywheelMotor = Hardware.Motors.talonSrxRaw(Constants
+        .kRightFlywheelMotor);
+    public final SimpleAccumulatedSensor rightFlywheelEncoder =
+        SimpleAccumulatedSensor.invert(Hardware.AccumulatedSensors.quadEncoder(Constants
+            .kRightFlywheelEncoderA, Constants.kRightFlywheelEncoderB, Constants
+            .kFlywheelDistancePerTick));
   }
 }
