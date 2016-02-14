@@ -95,8 +95,8 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   public void setConstantSpeed(double speed) {
     if (!(controller instanceof ConstantPidController)) {
       controller = new ConstantPidController(
-          new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi, Constants.kConstantDriveKd),
-          Constants.kConstantDriveAcceptableBitwiseError);
+          new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi,
+              Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
       ((ConstantPidController) controller).setGoal(speed);
     } else {
       ((ConstantPidController) controller).setGoal(speed);
