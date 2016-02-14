@@ -107,8 +107,8 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
     }
     double realVelocity = Math.min(Constants.kDriveMaxVelocity, Math.max(velocity, 0));
     controller = new DriveStraightController(getStateToContinueFrom(), distance,
-        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D, realVelocity,
-        Constants.kDriveMaxAcceleration,
+        ((double) (RobotManager.SLOW_CONTROLLERS_MILLISECONDS)) / 1000D,
+        realVelocity, Constants.kDriveMaxAcceleration,
         new PidConstants(Constants.kDriveDistanceKp, Constants.kDriveDistanceKi,
             Constants.kDriveDistanceKd), Constants.kDriveDistanceKv, Constants.kDriveDistanceKa,
         Constants.kDriveOnTargetError,
