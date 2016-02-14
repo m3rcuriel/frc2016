@@ -92,10 +92,9 @@ public class Hardware {
      */
     public static FlightStick logitechAttack3dPro(int port) {
       Joystick joystick = new Joystick(port);
-      return FlightStick
-          .create(joystick::getRawAxis, joystick::getRawButton, joystick::getPOV, () -> joystick.getY() * -1,
-              () -> joystick.getTwist() * -1, joystick::getX, joystick::getThrottle,
-              () -> joystick.getRawButton(1), () -> joystick.getRawButton(2));
+      return FlightStick.create(joystick::getRawAxis, joystick::getRawButton, joystick::getPOV,
+          () -> joystick.getY() * -1, () -> joystick.getTwist() * -1, joystick::getX,
+          joystick::getThrottle, () -> joystick.getRawButton(1), () -> joystick.getRawButton(2));
     }
   }
 

@@ -27,18 +27,19 @@ public class RobotBuilder {
   public static Robot buildRobot() {
     Components components = new Components();
 
-    DriveSystem driveSystem = new DriveSystem("Drive System",
-        Motor.compose(components.leftFront, components.leftRear),
-        Motor.invert(Motor.compose(components.rightFront, components.rightRear)), components.leftFrontEncoder,
-        components.rightFrontEncoder, Hardware.ahrsAsGyroscope(components.navX));
+    DriveSystem driveSystem =
+        new DriveSystem("Drive System", Motor.compose(components.leftFront, components.leftRear),
+            Motor.invert(Motor.compose(components.rightFront, components.rightRear)),
+            components.leftFrontEncoder, components.rightFrontEncoder,
+            Hardware.ahrsAsGyroscope(components.navX));
 
     DriveInterpreter drive = new DriveInterpreter(driveSystem);
 
     OperatorInterface operator = new OperatorInterface(
         Hardware.HumanInterfaceDevices.logitechAttack3dPro(Constants.kDriveJoystick));
 
-    Flywheel leftFlywheel = new Flywheel("Left Flywheel", components.leftFlywheelMotor,
-        components.leftFlywheelEncoder);
+    Flywheel leftFlywheel =
+        new Flywheel("Left Flywheel", components.leftFlywheelMotor, components.leftFlywheelEncoder);
     Flywheel rightFlywheel = new Flywheel("Right Flywheel", components.rightFlywheelMotor,
         components.rightFlywheelEncoder);
 
@@ -72,16 +73,16 @@ public class RobotBuilder {
 
     public final AHRS navX = new AHRS(SPI.Port.kMXP);
 
-    public final Motor leftFlywheelMotor = Hardware.Motors.talonSrxRaw(Constants
-        .kLeftFlywheelMotor);
-    public final SimpleAccumulatedSensor leftFlywheelEncoder =
-        Hardware.AccumulatedSensors.quadEncoder(Constants.kLeftFlywheelEncoderA,
-            Constants.kLeftFlywheelEncoderB, Constants.kFlywheelDistancePerTick);
-    public final Motor rightFlywheelMotor = Hardware.Motors.talonSrxRaw(Constants
-        .kRightFlywheelMotor);
-    public final SimpleAccumulatedSensor rightFlywheelEncoder =
-        SimpleAccumulatedSensor.invert(Hardware.AccumulatedSensors.quadEncoder(Constants
-            .kRightFlywheelEncoderA, Constants.kRightFlywheelEncoderB, Constants
-            .kFlywheelDistancePerTick));
+    public final Motor leftFlywheelMotor =
+        Hardware.Motors.talonSrxRaw(Constants.kLeftFlywheelMotor);
+    public final SimpleAccumulatedSensor leftFlywheelEncoder = Hardware.AccumulatedSensors
+        .quadEncoder(Constants.kLeftFlywheelEncoderA, Constants.kLeftFlywheelEncoderB,
+            Constants.kFlywheelDistancePerTick);
+    public final Motor rightFlywheelMotor =
+        Hardware.Motors.talonSrxRaw(Constants.kRightFlywheelMotor);
+    public final SimpleAccumulatedSensor rightFlywheelEncoder = SimpleAccumulatedSensor.invert(
+        Hardware.AccumulatedSensors
+            .quadEncoder(Constants.kRightFlywheelEncoderA, Constants.kRightFlywheelEncoderB,
+                Constants.kFlywheelDistancePerTick));
   }
 }
