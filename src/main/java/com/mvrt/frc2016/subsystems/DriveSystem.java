@@ -2,6 +2,8 @@ package com.mvrt.frc2016.subsystems;
 
 import com.mvrt.frc2016.Constants;
 import com.mvrt.frc2016.RobotManager;
+import com.mvrt.frc2016.subsystems.Controllers.ConstantPidController;
+import com.mvrt.frc2016.subsystems.Controllers.ConstantSpeedController;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -13,8 +15,6 @@ import com.mvrt.lib.control.controllers.drive.DriveStraightController;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
 import com.mvrt.lib.control.misc.PidConstants;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * This year's Robot drive train subsystem.
@@ -28,6 +28,7 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   private final Gyroscope gyroscope;
 
   private DriveController controller = null;
+  private ConstantSpeedController cscController = null;
 
   private DriveState driveState = new DriveState(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
@@ -88,6 +89,17 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
       return;
     }
     drive(controller.update(getDriveState()));
+  }
+
+  public void setConstantSpeed(double power) {
+    if (!(cscController instanceof ConstantPidController)) {
+      cscController = new ConstantPidController(
+          new PidConstants(Constants.kConstantDriveKp, Constants.kConstanttDriveKi, Constants.kConstantDriveKd),
+          Constants.kConstantDriveAcceptableBitwiseError);
+      cscController.setGoal(power);
+    } else {
+      cscController.setGoal(power);
+    }
   }
 
   public void setDistanceSetpoint(double distance) {

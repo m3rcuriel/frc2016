@@ -22,6 +22,8 @@ public class Constants extends ConstantsBase {
 
   public static double kDriveOnTargetError = 1E-1;
 
+  public static int kConstantDriveAcceptableBitwiseError = 8; // 8 bit precision
+
   public static double kDriveStraightKp = 0;
   public static double kDriveStraightKi = 0;
   public static double kDriveStraightKd = 0;
@@ -36,6 +38,10 @@ public class Constants extends ConstantsBase {
 
   public static double kPresetBatterSpeed = 200;
   public static double kPresetIntakeSpeed = -200;
+
+  public static double kConstantDriveKp = 0;
+  public static double kConstanttDriveKi = 0;
+  public static double kConstantDriveKd = 0;
 
   public static int kEndEditableArea = 0;
 
