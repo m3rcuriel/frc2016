@@ -7,7 +7,9 @@ import com.mvrt.frc2016.auto.modes.DoNothingAuto;
 import com.mvrt.frc2016.auto.modes.LowBarHighGoalAuto;
 import com.mvrt.frc2016.system.Robot;
 import com.mvrt.frc2016.system.RobotBuilder;
+import com.mvrt.frc2016.web.WebServer;
 import com.mvrt.lib.api.Conductor;
+import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Runnables;
 import com.mvrt.lib.components.Clock;
 import com.mvrt.lib.control.misc.DriveSignal;
@@ -72,6 +74,10 @@ public class RobotManager extends IterativeRobot {
     return robotState;
   }
 
+  public static void ambientRegister(Runnable runnable) {
+    ambientRunnables.register(runnable);
+  }
+
   /**
    * Runs when the robot is initially turned on.
    */
@@ -106,6 +112,7 @@ public class RobotManager extends IterativeRobot {
         new Conductor("Ambient Conductor", ambientRunnables, robotClock, ambientMetronome, null);
 
     ambientConductor.start();
+    WebServer.startServer(); // start bullboard server
   }
 
   public static long getRobotTimeMillis() {
