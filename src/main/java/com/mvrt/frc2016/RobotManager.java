@@ -161,6 +161,8 @@ public class RobotManager extends IterativeRobot {
     slowControllersConductor.start();
   }
 
+  private boolean lastThumbState = false;
+
   /**
    * Loops every approximately 20 ms during the teleoperated period.
    */
@@ -185,9 +187,17 @@ public class RobotManager extends IterativeRobot {
     boolean quickturn = robot.operator.quickturn.isTriggered();
 
     if (quickturn) {
-      double turnSign = Math.signum(wheel);
-      wheel = turnSign * (wheel * wheel);
+      wheel = robot.drive.squareInputs(wheel);
     }
+
+    boolean thumb = robot.operator.reverse.isTriggered();
+
+    if (lastThumbState != thumb) {
+      robot.drive.flip(!robot.drive.getFlip());
+    }
+
+    lastThumbState = thumb;
+
     robot.drive.austinDrive(throttle, wheel, quickturn);
   }
 

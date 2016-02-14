@@ -12,4 +12,7 @@ public interface Runnable {
   default void run(long time, TimeUnit unit) {
     run(unit.convert(time, TimeUnit.MILLISECONDS));
   }
+
+  @Override
+  String toString();
 }
