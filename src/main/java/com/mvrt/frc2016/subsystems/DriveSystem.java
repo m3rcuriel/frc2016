@@ -14,6 +14,7 @@ import com.mvrt.lib.control.controllers.drive.DriveStraightController;
 import com.mvrt.lib.control.misc.DriveSignal;
 import com.mvrt.lib.control.misc.DriveState;
 import com.mvrt.lib.control.misc.PidConstants;
+import com.sun.tools.internal.jxc.ap.Const;
 
 import java.util.concurrent.TimeUnit;
 
@@ -93,10 +94,14 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   }
 
   public void setConstantSpeed(double speed) {
-    cscController = new ConstantPidController(
-        new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi,
-            Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
-    cscController.setGoal(speed);
+    if (!(controller instanceof ConstantPidController)) {
+      controller = new ConstantPidController(
+          new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi, Constants.kConstantDriveKd),
+          Constants.kConstantDriveAcceptableBitwiseError);
+      ((ConstantPidController) controller).setGoal(speed);
+    } else {
+      ((ConstantPidController) controller).setGoal(speed);
+    }
   }
 
   public void setDistanceSetpoint(double distance) {
