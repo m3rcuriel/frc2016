@@ -235,7 +235,7 @@ public class DriveInterpreter {
   }
 
   private void drive(DriveSignal signal) {
-    if(flip) {
+    if (flip) {
       driveTrain.drive(signal.invert());
     } else {
       driveTrain.drive(signal);
