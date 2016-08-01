@@ -2,6 +2,7 @@ package com.mvrt.frc2016.subsystems;
 
 import com.mvrt.frc2016.Constants;
 import com.mvrt.frc2016.RobotManager;
+import com.mvrt.frc2016.subsystems.controllers.ConstantPidController;
 import com.mvrt.lib.api.Runnable;
 import com.mvrt.lib.api.Subsystem;
 import com.mvrt.lib.components.DriveTrain;
@@ -28,6 +29,7 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
   private final Gyroscope gyroscope;
 
   private DriveController controller = null;
+  private ConstantPidController cscController = null;
 
   private DriveState driveState = new DriveState(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
@@ -88,6 +90,17 @@ public class DriveSystem extends Subsystem implements DriveTrain, Runnable {
       return;
     }
     drive(controller.update(getDriveState()));
+  }
+
+  public void setConstantSpeed(double speed) {
+    if (!(controller instanceof ConstantPidController)) {
+      controller = new ConstantPidController(
+          new PidConstants(Constants.kConstantDriveKp, Constants.kConstantDriveKi,
+              Constants.kConstantDriveKd), Constants.kConstantDriveAcceptableBitwiseError);
+      ((ConstantPidController) controller).setGoal(speed);
+    } else {
+      ((ConstantPidController) controller).setGoal(speed);
+    }
   }
 
   public void setDistanceSetpoint(double distance) {
